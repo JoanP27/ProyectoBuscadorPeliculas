@@ -1,0 +1,34 @@
+{% extends "base.njk" %}
+
+{% block titulo %}Contactos | Edición{% endblock %}
+
+{% block contenido %}
+
+    <h1>Edición de contacto</h1>
+
+    <form action="/contactos/{{ contacto.id }}" method="post">
+        <input type="hidden" name="_method" value="put">
+       
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" 
+                placeholder="Nombre del contacto..." value="{{ contacto.nombre }}">
+        </div>
+        <div>
+            <label for="edad">Edad:</label>
+            <input type="number" name="edad"
+                placeholder="Edad del contacto..." value="{{ contacto.edad }}">
+        </div>
+        <div>
+            <label for="telefono">Teléfono:</label>
+            <input type="text" name="telefono"
+                placeholder="Teléfono del contacto..." value="{{ contacto.telefono }}">
+        </div>
+
+
+        <button type="submit">
+            Enviar
+        </button>
+    </form>
+
+{% endblock %}

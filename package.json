@@ -1,0 +1,29 @@
+{
+  "name": "app-tailwind",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server/app.js",
+    "dev:assets": "vite",
+    "build": "vite build",
+    "start": "cross-env NODE_ENV=production node server/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^9.3.3",
+    "nunjucks": "^3.2.4",
+    "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "nodemon": "^3.1.14",
+    "vite": "^8.0.3"
+  }
+}
