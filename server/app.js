@@ -46,7 +46,7 @@ app.locals.viteAsset = viteAsset
 app.locals.viteCssFiles = viteCssFiles
 
 app.use('/contactos', indexRouter)
-app.use('/films', filmRouterRouter)
+app.use('/films', filmRouter)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
