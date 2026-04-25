@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import Film from '../models/film.js';
+import { protegerRuta } from '../auth/auth.js';
 
 let router = Router();
 
 // let players = {};
-const { protegerRuta } = require('../auth/auth');
 
 
 const ADMIN = ["admin"];
@@ -118,4 +118,4 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

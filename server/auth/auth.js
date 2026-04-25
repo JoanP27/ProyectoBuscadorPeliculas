@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require("dotenv");
+import jwt from 'jsonwebtoken';
+import dotenv from "dotenv";
 
 // Cargar variables de entorno
 dotenv.config();
@@ -30,8 +30,8 @@ let protegerRuta = roles => {
 };
 
     
-module.exports = {
-    generarToken: generarToken,
-    validarToken: validarToken,
-    protegerRuta: protegerRuta
+export {
+    generarToken,
+    validarToken,
+    protegerRuta
 };

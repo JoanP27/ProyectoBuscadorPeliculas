@@ -1,121 +1,40 @@
-import { Router } from 'express';
-import Film from '../models/film.js';
-
-let router = Router();
-
-// let players = {};
-const { protegerRuta } = require('../auth/auth');
-
-
-const ADMIN = ["admin"];
-const ANY = ["admin"];
-
-
-//----------------------GET-----------------------------
-
-// devuelve un listado con todos las peliculas registradas en la base de datos.
-// /film
-router.get('/', (req, res) => {
-    Film.find().then(resultado => {
-        res.render('film_listado', {film: resultado});
-    }).catch(error => {
-        // Aquí podríamos renderizar una página de error
-    });
+import mongoose from 'mongoose';
+/**
+ *  Representa a cada pelicula
+ */
+let filmSchema = new mongoose.Schema({
+    titulo: {
+        type: String,
+        required: true,
+        unique: true,
+        minlength: 2,
+        maxlength: 255
+    },
+    director: {
+        type: String,
+        required: true,
+        minlength: 3,
+        maxlength: 50
+    },
+    anyo: {
+        type: Number,
+        required: true,
+        min: 1800,
+        max: 2100
+    },
+    sinopsis: {
+        type: String,
+        required: true,
+        minlength: 3,
+        maxlength: 500
+    },
+    genero: {
+        type: String,
+        required: true,
+        minlength: 3,
+    },
 });
+// Asociación con el modelo (colección contactos)
+let Film = mongoose.model('film', filmSchema);
 
-
-//buscar id
-router.get('/:id', (req, res) => {
-    Film.findById(req.params['id']).then(resultado => {
-        res.render('films_ficha', {film: resultado});
-    }).catch(error => {
-        // Aquí podríamos renderizar una página de error
-    });
-});
-
-//routa editar
-router.get('/edit/:id', (req, res) => {
-    Film.findById(req.params['id']).then(resultado => {
-        if (resultado) {
-            res.render('films_edit', {film: resultado});
-        } else {
-            res.render('error', {error: "Pelicula no encontrada"});
-        }
-    }).catch(error => {
-        res.render('error', {error: "Pelicula no encontrado"});
-    });
-});
-
-// Formulario de alta de pelicula
-router.get('/new', (req, res) => {
-    res.render('films_new');
-});
-
-
-
-
-//----------------------POST-----------------------------
-//crea una nueva pelicula en la base de datos a partir de los datos
-// enviados en el cuerpo de la petición (body) en formato JSON
-
-router.post('/', (req, res) => {
-
-    let nuevaFilm = new Film({
-        titulo: req.body.titulo,
-        director: req.body.director,
-        anyo: req.body.anyo,
-        sinopsis: req.body.sinopsis,
-        genero: req.body.genero
-    });
-    nuevaFilm.save().then(resultado => {
-        res.redirect(req.baseUrl);
-    }).catch(error => {
-        let errores = Object.keys(error.errors);
-        let mensaje = "";
-        if(errores.length > 0)
-        {
-            errores.forEach(clave => {
-                mensaje += '<p>' + error.errors[clave].message + '</p>';
-            })
-        }
-        else
-        {
-            mensaje = 'Error añadiendo pelicula';
-        }
-        console.log();
-        res.render('error', {error: mensaje});
-    });
-});
-
-//----------------------PUT-----------------------------
-//actualiza la información de una pelicula existente en la base de datos a partir del
-// identificador (id) incluido en la URL y de los nuevos datos enviados en el cuerpo de la petición (body) en
-// formato JSON
-
-router.put('/:id', (req, res) => {
-    Film.findByIdAndUpdate(req.params.id, {
-        $set: {
-            nombre: req.body.nombre,
-            edad: req.body.edad,
-            telefono: req.body.telefono
-        }
-    }, {new: true}).then(resultado => {
-        res.redirect(req.baseUrl);
-    }).catch(error => {
-        res.render('error', {error: "Error modificando pelicula"});
-    });
-});
-
-
-//----------------------Delete-----------------------------
-//elimina una pelicula de la base de datos a partir del identificador (id) especificado en la URL.
-// Ruta para borrar peliculas
-router.delete('/:id', (req, res) => {
-    Film.findByIdAndDelete(req.params.id).then(resultado => {
-        res.redirect(req.baseUrl);
-    }).catch(error => {
-        res.render('error', {error: "Error borrando pelicula"});
-    });
-});
-
-module.exports = router;
+export default Film;
