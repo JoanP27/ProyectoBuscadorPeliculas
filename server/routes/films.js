@@ -7,8 +7,8 @@ let router = Router();
 // let players = {};
 
 
-const ADMIN = ["admin"];
-const ANY = ["admin"];
+// const ADMIN = ["admin"];
+// const ANY = ["admin"];
 
 
 //----------------------GET-----------------------------
@@ -24,20 +24,11 @@ router.get('/', (req, res) => {
 });
 
 
-//buscar id
-router.get('/:id', (req, res) => {
-    Film.findById(req.params['id']).then(resultado => {
-        res.render('films_ficha', {film: resultado});
-    }).catch(error => {
-        // Aquí podríamos renderizar una página de error
-    });
-});
-
 //routa editar
-router.get('/edit/:id', (req, res) => {
+router.get('/editar/:id', (req, res) => {
     Film.findById(req.params['id']).then(resultado => {
         if (resultado) {
-            res.render('films_edit', {film: resultado});
+            res.render('films_editar', {film: resultado});
         } else {
             res.render('error', {error: "Pelicula no encontrada"});
         }
@@ -47,12 +38,19 @@ router.get('/edit/:id', (req, res) => {
 });
 
 // Formulario de alta de pelicula
-router.get('/new', (req, res) => {
-    res.render('films_new');
+router.get('/nuevo', (req, res) => {
+    res.render('films_nuevo');
 });
 
 
-
+//buscar id
+router.get('/:id', (req, res) => {
+    Film.findById(req.params['id']).then(resultado => {
+        res.render('films_ficha', {film: resultado});
+    }).catch(error => {
+        // Aquí podríamos renderizar una página de error
+    });
+});
 
 //----------------------POST-----------------------------
 //crea una nueva pelicula en la base de datos a partir de los datos
@@ -95,9 +93,11 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     Film.findByIdAndUpdate(req.params.id, {
         $set: {
-            nombre: req.body.nombre,
-            edad: req.body.edad,
-            telefono: req.body.telefono
+            titulo: req.body.titulo,
+            director: req.body.director,
+            anyo: req.body.anyo,
+            sinopsis: req.body.sinopsis,
+            genero: req.body.genero
         }
     }, {new: true}).then(resultado => {
         res.redirect(req.baseUrl);

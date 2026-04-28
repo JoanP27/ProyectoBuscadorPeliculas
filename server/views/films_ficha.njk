@@ -1,0 +1,15 @@
+{% extends "base.njk" %}
+
+{% block titulo %}Pelu+ | Ficha{% endblock %}
+
+{% block contenido %}
+
+    <h1>Información de la pelicula</h1>
+
+    <p><strong>Titulo:</strong> {{ film.titulo }}</p>
+    <p><strong>Director:</strong> {{ film.director }}</p>
+    <p><strong>Año:</strong> {{ film.anyo }}</p>
+    <p><strong>Sinospsis:<strong> {{film.sinopsis}}</p>
+    <p><strong>Género:<strong> {{film.genero}}</p>
+
+{% endblock %}

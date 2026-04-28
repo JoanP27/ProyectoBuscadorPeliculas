@@ -1,0 +1,38 @@
+{% extends "base.njk" %}
+
+{% block titulo %}Peliculas | Nuevo{% endblock %}
+
+{% block contenido %}
+
+    <h1>Inserción de nueva pelicula</h1>
+
+    <form action="/films" method="post">
+        <div>
+            <label for="titulo">Titulo:</label>
+            <input type="text" name="titulo" 
+                placeholder="Titulo de la pelicula...">
+        </div>
+        <div>
+            <label for="director">Director:</label>
+            <input type="number" name="director"
+                placeholder="Director de la pelicula...">
+        </div>
+        <div>
+            <label for="anyo">Año:</label>
+            <input type="text" name="anyo"
+                placeholder="Año de la pelicula...">
+        </div>
+            <div>
+            <label for="sinopsis">Sinopsis:</label>
+            <input type="text" name="sinopsis"
+                placeholder="Sinopsis de la pelicula...">
+        </div>
+            <div>
+            <label for="genero">Genero:</label>
+            <input type="text" name="genero"
+                placeholder="Genero de la pelicula...">
+        </div>
+        <button type="submit">Enviar</button>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.njk" %}
+
+{% block titulo %}Peliculas | Listado{% endblock %}
+
+{% block contenido %}
+
+    <h1>Listado de peliculas</h1>
+
+    <ul>
+        {% for film in films %}
+            <li>{{ film.titulo }} 
+                <a class="bg-lime-500 rounded-lg" href="/films/{{ film.id }}">Ficha</a>
+                <form style="display:inline" action="/films/{{ film.id }}" method="post">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="bg-red-400 rounded-lg">Borrar</button>
+                </form>
+                <a class="bg-blue-400 rounded-lg" href="/films/editar/{{ film.id }}">Editar</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
