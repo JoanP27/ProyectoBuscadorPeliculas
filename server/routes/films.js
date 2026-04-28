@@ -17,7 +17,7 @@ let router = Router();
 // /film
 router.get('/', (req, res) => {
     Film.find().then(resultado => {
-        res.render('film_listado', {film: resultado});
+        res.render('film_listado', {films: resultado});
     }).catch(error => {
         // Aquí podríamos renderizar una página de error
     });

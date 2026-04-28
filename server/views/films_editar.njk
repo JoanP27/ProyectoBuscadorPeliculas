@@ -1,0 +1,44 @@
+{% extends "base.njk" %}
+
+{% block titulo %}Peliculas | Edición{% endblock %}
+
+{% block contenido %}
+
+    <h1>Edición de pelicula</h1>
+
+    <form action="/films/{{ film.id }}" method="post">
+        <input type="hidden" name="_method" value="put">
+       
+           <div>
+            <label for="titulo">Titulo:</label>
+            <input type="text" name="titulo" 
+                placeholder="Titulo de la pelicula..." value="{{ film.titulo }}">
+        </div>
+        <div>
+            <label for="director">Director:</label>
+            <input type="text" name="director"
+                placeholder="Director de la pelicula..." value="{{ film.director }}">
+        </div>
+        <div>
+            <label for="anyo">Año:</label>
+            <input type="number" name="anyo"
+                placeholder="Año de la pelicula..." value="{{ film.anyo }}">
+        </div>
+            <div>
+            <label for="sinopsis">Sinopsis:</label>
+            <input type="text" name="sinopsis"
+                placeholder="Sinopsis de la pelicula..." value="{{ film.titulo }}">
+        </div>
+            <div>
+            <label for="genero">Genero:</label>
+            <input type="text" name="genero"
+                placeholder="Genero de la pelicula..." value="{{ film.genero }}">
+        </div>
+
+
+        <button type="submit">
+            Enviar
+        </button>
+    </form>
+
+{% endblock %}
