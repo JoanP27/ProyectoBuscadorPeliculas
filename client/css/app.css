@@ -1,2 +1,15 @@
+
+
 @import "tailwindcss";
 @source "../../server/views";
+
+
+@theme {
+
+}
+
+@layer components {
+    .body {
+        @apply bg-gray-950 text-gray-50 m-0 
+    }
+}
