@@ -1,0 +1,45 @@
+njk{% extends "base.njk" %}
+
+{% block titulo %}Pelu+ | Carrito{% endblock %}
+
+{% block contenido %}
+
+<div class="max-w-2xl mx-auto mt-8">
+    <h1 class="text-3xl font-bold mb-6 text-slate-800">Tu carrito</h1>
+
+    {% if cart | length > 0 %}
+        <ul class="space-y-4">
+            {% for pelicula in cart %}
+                <li>
+                    <div>
+                        <p class="font-semibold text-slate-800">{{ pelicula.titulo }}</p>
+                        <p class="text-sm text-slate-500">
+                            {{ pelicula.director }} · {{ pelicula.anyo }} · {{ pelicula.genero }}
+                        </p>
+                    </div>
+                    <form action="/cart/{{ pelicula.id }}" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit"
+                            class="bg-red-500 hover:bg-red-600 text-white font-semibold">
+                            Eliminar
+                        </button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <p>
+            Total: <strong>{{ cart | length }} película(s)</strong> en tu carrito
+        </p>
+
+    {% else %}
+        <div>
+            <p class="text-lg">Tu carrito está vacío.</p>
+            <a href="/films">
+                Ver películas
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

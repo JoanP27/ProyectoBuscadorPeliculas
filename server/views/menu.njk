@@ -7,4 +7,13 @@
         <a href="/films">Listado de films</a>
     &nbsp;&nbsp;
     <a href="/films/nuevo">Nuevo film</a>
+     <a href="/cart">
+        Carrito
+        {% if session.cart and session.cart | length > 0 %}
+            <span>
+                {{ session.cart | length }}
+            </span>
+            
+        {% endif %}
+        </a>
 </div>
