@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-let comentarioSchema = new mongoose.Schema({
+let detailSchema = new mongoose.Schema({
 
     filmId:{
         type: mongoose.Schema.Types.ObjectId,
@@ -31,6 +31,6 @@ let comentarioSchema = new mongoose.Schema({
     }
 });
 
-let Comentario = mongoose.model('comentario', comentarioSchema);
+let Detail = mongoose.model('detail', detailSchema);
 
-export default Comentario;
+export default Detail;
