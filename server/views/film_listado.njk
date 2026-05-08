@@ -3,20 +3,25 @@
 {% block titulo %}Peliculas | Listado{% endblock %}
 
 {% block contenido %}
-
-    <h1>Listado de peliculas</h1>
-
-    <ul>
+    <section class="flex flex-col">
         {% for film in films %}
-            <li>{{ film.titulo }} 
+            <section class="film-item">
+                <p class="text-lg p-1">{{film.titulo}}</p>
+                <p class="p-1">{{film.sinopsis}}</p>
+                <section class="p-1">
+                    <span class="tag bg-purple-600">{{film.genero}}</span>
+                </section>
+            </section>
+
+            <!--li>{{ film.titulo }} 
                 <a class="bg-lime-500 rounded-lg" href="/films/{{ film.id }}">Ficha</a>
                 <form style="display:inline" action="/films/{{ film.id }}" method="post">
                     <input type="hidden" name="_method" value="delete" />
                     <button type="submit" class="bg-red-400 rounded-lg">Borrar</button>
                 </form>
                 <a class="bg-blue-400 rounded-lg" href="/films/editar/{{ film.id }}">Editar</a>
-            </li>
+            </li-->
         {% endfor %}
-    </ul>
+    </section>
 
 {% endblock %}

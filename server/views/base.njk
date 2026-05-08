@@ -15,12 +15,11 @@
     <script type="module" src="{{ viteAsset() }}"></script>
   {% endif %}
 </head>
-<body class="bg-slate-100 text-slate-900">
+<body class="body">
     {% include "menu.njk" %}
-    <div class="container">
+    <main class="p-4">
         {% block contenido %}
-
         {% endblock %}
-    </div>
+    </main>
 </body>
 </html>
