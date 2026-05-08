@@ -1,19 +1,17 @@
-
-<div class="bg-slate-200">
-    <a href="/contactos">Listado de contactos</a>
-    &nbsp;&nbsp;
-    <a href="/contactos/nuevo">Nuevo contacto</a>
-
-        <a href="/films">Listado de films</a>
-    &nbsp;&nbsp;
-    <a href="/films/nuevo">Nuevo film</a>
-     <a href="/cart">
-        Carrito
-        {% if session.cart and session.cart | length > 0 %}
-            <span>
-                {{ session.cart | length }}
-            </span>
-            
-        {% endif %}
+<header>
+    <section class="bg-gray-900 flex h-20 items-center justify-between px-4">
+        <div class="text-2xl text-gray-50 p-2">Peliculas</div>
+        <nav>
+            <ul class="list-none flex">
+                <li><a class="p-2 text-gray-50" href="/films">Listado de films</a></li>
+                <li><a class="p-2 text-gray-50" href="/films/nuevo">Nuevo film</a></li>
+            </ul>
+        </nav>
+        <a class="p-2 text-gray-50" href="/cart">
+            Carrito
+            {% if session.cart and session.cart | length > 0 %}
+                <span>{{ session.cart | length }}</span>
+            {% endif %}
         </a>
-</div>
+    </section>
+</header>
