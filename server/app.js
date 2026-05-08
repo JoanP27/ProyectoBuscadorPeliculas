@@ -5,9 +5,12 @@ import nunjucks from 'nunjucks'
 import dotenv from 'dotenv'
 import methodOverride from 'method-override'
 
+
 import connectMongo from './config/mongoose.js'
 import indexRouter from './routes/contactos.js'
 import filmRouter from './routes/films.js'
+import detailRouter from './routes/details.js'
+import cartRouter from './routes/cart.js'
 import { viteAsset, viteCssFiles, isDev } from './utils/vite-assets.js'
 
 dotenv.config()
@@ -47,7 +50,7 @@ app.locals.viteCssFiles = viteCssFiles
 
 app.use('/contactos', indexRouter)
 app.use('/films', filmRouter)
-app.use('/details', detailsRouter)
+app.use('/details', detailRouter)
 app.use('/cart', cartRouter)
 
 const port = process.env.PORT || 3000
