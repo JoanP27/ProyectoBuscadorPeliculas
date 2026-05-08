@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Film from '../models/film.js';
+import Detail from '../models/detail.js';
 import { protegerRuta } from '../auth/auth.js';
 
 let router = Router();
