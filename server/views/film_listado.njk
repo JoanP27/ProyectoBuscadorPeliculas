@@ -3,24 +3,32 @@
 {% block titulo %}Peliculas | Listado{% endblock %}
 
 {% block contenido %}
-    <section class="flex flex-col">
+    <section class="flex flex-col gap-4">
         {% for film in films %}
             <section class="film-item">
                 <p class="text-lg p-1">{{film.titulo}}</p>
                 <p class="p-1">{{film.sinopsis}}</p>
-                <section class="p-1">
-                    <span class="tag bg-purple-600">{{film.genero}}</span>
+                <section class="flex flex-row gap-3 mt-10">
+                    <section class="flex items-center gap-2 text-gray-300 text-sm">
+                        <span class="tag border border-purple-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[streamline-plump--film-slate-remix] size-4.5"></span>
+                            <span>{{film.genero}}</span>
+                        </span>
+                    </section>
+                    <section class="flex items-center gap-2 text-gray-300 text-sm">
+                        <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[mdi--calendar] size-4.5"></span>
+                            <span>{{film.anyo}}</span>
+                        </span>
+                    </section>
+                    <section class="flex items-center gap-2 text-gray-300 text-sm">
+                        <span class="tag border border-green-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[material-symbols--person] size-5"></span>
+                            <span>{{film.director}}</span>
+                        </span>
+                    </section>
                 </section>
             </section>
-
-            <!--li>{{ film.titulo }} 
-                <a class="bg-lime-500 rounded-lg" href="/films/{{ film.id }}">Ficha</a>
-                <form style="display:inline" action="/films/{{ film.id }}" method="post">
-                    <input type="hidden" name="_method" value="delete" />
-                    <button type="submit" class="bg-red-400 rounded-lg">Borrar</button>
-                </form>
-                <a class="bg-blue-400 rounded-lg" href="/films/editar/{{ film.id }}">Editar</a>
-            </li-->
         {% endfor %}
     </section>
 
