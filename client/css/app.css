@@ -6,12 +6,12 @@
 
 
 @theme {
-
+    --color-bg: bg-gray-950
 }
 
 @layer components {
     .body {
-        @apply bg-gray-950 text-gray-50 m-0 
+        @apply  bg-gray-950 text-gray-50 m-0 
     }
 
     .film-item {
@@ -19,6 +19,6 @@
     }
 
     .tag {
-        @apply rounded-2xl p-2 text-sm
+        @apply rounded-2xl p-1 px-2 text-sm
     }
 }
