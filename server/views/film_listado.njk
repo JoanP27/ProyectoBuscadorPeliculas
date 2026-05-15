@@ -3,6 +3,31 @@
 {% block titulo %}Peliculas | Listado{% endblock %}
 
 {% block contenido %}
+
+    <section class="bg-white/10 rounded-md mb-4 p-4">
+        <form class="flex gap-2" action="/films" method="get">
+            <section class="text-input p-0 m-0 flex items-center">
+                <label for="titulo" class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></label>
+                <input value="{{params.titulo}}" placeholder="Titulo" class="p-2 w-60 rounded-md outline-0" type="text" name="titulo" id="titulo">
+            </section>
+            <section class="text-input p-0 m-0 flex items-center">
+                <label for="titulo" class="icon-[mdi--calendar] size-5 ml-3 bg-gray-400"></label>
+                <input value='{{params.anyo}}' placeholder="Año" class="p-2 w-30 rounded-md outline-0" min=0 type="number" name="anyo" id="anyo">
+            </section>
+            <section class="text-input p-0 m-0 flex items-center">
+                <label for="director" class="icon-[material-symbols--person] size-5 ml-2 bg-gray-400"></label>
+                <input value='{{params.director}}' placeholder="Director" class="p-2 w-30 rounded-md outline-0" type="text" name="director" id="director">
+            </section>
+            <button type="submit" class="button bg-blue-800">
+                <span class="icon-[material-symbols--search] size-5"></span>
+                <span>Buscar</span>
+            </button>
+            <button type="reset" class="button bg-red-800">
+                <span class="icon-[pajamas--remove] size-4"></span>
+                <span>Limpiar</span>
+            </button>
+        </form>
+    </section>
     <section class="flex flex-col gap-4">
         {% for film in films %}
             <section class="film-item">

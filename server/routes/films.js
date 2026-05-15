@@ -17,8 +17,26 @@ let router = Router();
 // devuelve un listado con todos las peliculas registradas en la base de datos.
 // /film
 router.get('/', (req, res) => {
-    Film.find().then(resultado => {
-        res.render('film_listado', {films: resultado});
+
+    // Los parametros de busqueda
+    const params = {...req.query};
+
+    let filtros = {
+        titulo: { $regex: params.titulo ?? '', $options: 'i' },
+        director:  { $regex: params.director ?? '', $options: 'i' }
+    }
+
+    if(params.anyo && params.anyo != '') {
+        filtros = {
+            ...filtros, 
+            anyo: params.anyo
+        }
+    }
+
+    console.log(filtros)
+
+    Film.find(filtros).then(resultado => {
+        res.render('film_listado', {films: resultado, params: params});
     }).catch(error => {
         // Aquí podríamos renderizar una página de error
     });
