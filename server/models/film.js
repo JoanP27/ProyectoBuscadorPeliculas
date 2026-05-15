@@ -33,6 +33,12 @@ let filmSchema = new mongoose.Schema({
         required: true,
         minlength: 3,
     },
+    valoracionMedia:{
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5 
+    }
 });
 // Asociación con el modelo (colección contactos)
 let Film = mongoose.model('film', filmSchema);
