@@ -4,19 +4,57 @@
 
 {% block contenido %}
 
-    <h1>Listado de peliculas</h1>
-
-    <ul>
+    <section class="bg-white/10 rounded-md mb-4 p-4">
+        <form class="flex gap-2" action="/films" method="get">
+            <section class="text-input p-0 m-0 flex items-center">
+                <label for="titulo" class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></label>
+                <input value="{{params.titulo}}" placeholder="Titulo" class="p-2 w-60 rounded-md outline-0" type="text" name="titulo" id="titulo">
+            </section>
+            <section class="text-input p-0 m-0 flex items-center">
+                <label for="titulo" class="icon-[mdi--calendar] size-5 ml-3 bg-gray-400"></label>
+                <input value='{{params.anyo}}' placeholder="Año" class="p-2 w-30 rounded-md outline-0" min=0 type="number" name="anyo" id="anyo">
+            </section>
+            <section class="text-input p-0 m-0 flex items-center">
+                <label for="director" class="icon-[material-symbols--person] size-5 ml-2 bg-gray-400"></label>
+                <input value='{{params.director}}' placeholder="Director" class="p-2 w-30 rounded-md outline-0" type="text" name="director" id="director">
+            </section>
+            <button type="submit" class="button bg-blue-800">
+                <span class="icon-[material-symbols--search] size-5"></span>
+                <span>Buscar</span>
+            </button>
+            <button type="reset" class="button bg-red-800">
+                <span class="icon-[pajamas--remove] size-4"></span>
+                <span>Limpiar</span>
+            </button>
+        </form>
+    </section>
+    <section class="flex flex-col gap-4">
         {% for film in films %}
-            <li>{{ film.titulo }} 
-                <a class="bg-lime-500 rounded-lg" href="/films/{{ film.id }}">Ficha</a>
-                <form style="display:inline" action="/films/{{ film.id }}" method="post">
-                    <input type="hidden" name="_method" value="delete" />
-                    <button type="submit" class="bg-red-400 rounded-lg">Borrar</button>
-                </form>
-                <a class="bg-blue-400 rounded-lg" href="/films/editar/{{ film.id }}">Editar</a>
-            </li>
+            <section class="film-item">
+                <p class="text-lg p-1">{{film.titulo}}</p>
+                <p class="p-1">{{film.sinopsis}}</p>
+                <section class="flex flex-row gap-3 mt-10">
+                    <section class="flex items-center gap-2 text-gray-300 text-sm">
+                        <span class="tag border border-purple-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[streamline-plump--film-slate-remix] size-4.5"></span>
+                            <span>{{film.genero}}</span>
+                        </span>
+                    </section>
+                    <section class="flex items-center gap-2 text-gray-300 text-sm">
+                        <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[mdi--calendar] size-4.5"></span>
+                            <span>{{film.anyo}}</span>
+                        </span>
+                    </section>
+                    <section class="flex items-center gap-2 text-gray-300 text-sm">
+                        <span class="tag border border-green-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[material-symbols--person] size-5"></span>
+                            <span>{{film.director}}</span>
+                        </span>
+                    </section>
+                </section>
+            </section>
         {% endfor %}
-    </ul>
+    </section>
 
 {% endblock %}

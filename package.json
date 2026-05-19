@@ -24,6 +24,8 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.470",
+    "@iconify/tailwind4": "^1.2.3",
     "cross-env": "^10.1.0",
     "nodemon": "^3.1.14",
     "vite": "^8.0.3"
