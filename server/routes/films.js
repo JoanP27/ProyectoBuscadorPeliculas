@@ -36,7 +36,10 @@ router.get('/', (req, res) => {
     console.log(filtros)
 
     Film.find(filtros).then(resultado => {
-        res.render('film_listado', {films: resultado, params: params});
+        res.render('film_listado', {
+            films: resultado.toSorted((f1, f2) => params.orden === 'asc' ?
+                f1.titulo.localeCompare(f2.titulo) : f2.titulo.localeCompare(f1.titulo)),
+        params: params});
     }).catch(error => {
         // Aquí podríamos renderizar una página de error
     });
