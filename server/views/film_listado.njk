@@ -18,11 +18,11 @@
                 <label for="director" class="icon-[material-symbols--person] size-5 ml-2 bg-gray-400"></label>
                 <input value='{{params.director}}' placeholder="Director" class="p-2 w-30 rounded-md outline-0" type="text" name="director" id="director">
             </section>
-            <button type="submit" class="button bg-blue-800">
+            <button type="submit" class="button bg-blue-800 cursor-pointer">
                 <span class="icon-[material-symbols--search] size-5"></span>
                 <span>Buscar</span>
             </button>
-            <button type="reset" class="button bg-red-800">
+            <button type="reset" class="button bg-red-800 cursor-pointer">
                 <span class="icon-[pajamas--remove] size-4"></span>
                 <span>Limpiar</span>
             </button>
@@ -30,29 +30,46 @@
     </section>
     <section class="flex flex-col gap-4">
         {% for film in films %}
-            <section class="film-item">
-                <p class="text-lg p-1">{{film.titulo}}</p>
-                <p class="p-1">{{film.sinopsis}}</p>
-                <section class="flex flex-row gap-3 mt-10">
-                    <section class="flex items-center gap-2 text-gray-300 text-sm">
-                        <span class="tag border border-purple-600 flex flex-row gap-2 p-2">
-                            <span class="icon-[streamline-plump--film-slate-remix] size-4.5"></span>
-                            <span>{{film.genero}}</span>
-                        </span>
+            <section class="film-item flex flex-row items-center justify-between gap-6 p-4">
+                <div class="flex-1">
+                    <p class="text-lg p-1">{{film.titulo}}</p>
+                    <p class="p-1">{{film.sinopsis}}</p>
+                    <section class="flex flex-row gap-3 mt-10">
+                        <section class="flex items-center gap-2 text-gray-300 text-sm">
+                            <span class="tag border border-purple-600 flex flex-row gap-2 p-2">
+                                <span class="icon-[streamline-plump--film-slate-remix] size-4.5"></span>
+                                <span>{{film.genero}}</span>
+                            </span>
+                        </section>
+                        <section class="flex items-center gap-2 text-gray-300 text-sm">
+                            <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
+                                <span class="icon-[mdi--calendar] size-4.5"></span>
+                                <span>{{film.anyo}}</span>
+                            </span>
+                        </section>
+                        <section class="flex items-center gap-2 text-gray-300 text-sm">
+                            <span class="tag border border-green-600 flex flex-row gap-2 p-2">
+                                <span class="icon-[material-symbols--person] size-5"></span>
+                                <span>{{film.director}}</span>
+                            </span>
+                        </section>
                     </section>
-                    <section class="flex items-center gap-2 text-gray-300 text-sm">
-                        <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
-                            <span class="icon-[mdi--calendar] size-4.5"></span>
-                            <span>{{film.anyo}}</span>
-                        </span>
-                    </section>
-                    <section class="flex items-center gap-2 text-gray-300 text-sm">
-                        <span class="tag border border-green-600 flex flex-row gap-2 p-2">
-                            <span class="icon-[material-symbols--person] size-5"></span>
-                            <span>{{film.director}}</span>
-                        </span>
-                    </section>
-                </section>
+                </div>
+                <div class="flex flex-row items-center gap-4">
+                    <a href="/films/editar/{{ film._id }}" 
+                        class="flex items-center justify-center p-2 rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer">
+                        <span class="icon-[material-symbols--edit-outline] size-5"></span>
+                    </a>
+
+                     <form action="/films/{{ film._id }}" method="post" class="inline m-0 p-0">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" 
+                            class="flex items-center justify-center p-2 rounded-lg bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white transition-colors cursor-pointer border-0" 
+                            title="Eliminar">
+                            <span class="icon-[material-symbols--delete-outline] size-5"></span>
+                        </button>
+                    </form>
+                </div>
             </section>
         {% endfor %}
     </section>
