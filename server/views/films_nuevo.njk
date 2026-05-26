@@ -4,35 +4,41 @@
 
 {% block contenido %}
 
-    <h1>Inserción de nueva pelicula</h1>
+    <h1 class="text-2xl font-bold text-white mb-4">Inserción de nueva pelicula</h1>
 
-    <form action="/films" method="post">
-        <div>
-            <label for="titulo">Titulo:</label>
-            <input type="text" name="titulo" 
-                placeholder="Titulo de la pelicula...">
-        </div>
-        <div>
-            <label for="director">Director:</label>
-            <input type="text" name="director"
-                placeholder="Director de la pelicula...">
-        </div>
-        <div>
-            <label for="anyo">Año:</label>
-            <input type="number" name="anyo"
-                placeholder="Año de la pelicula...">
-        </div>
-            <div>
-            <label for="sinopsis">Sinopsis:</label>
-            <input type="text" name="sinopsis"
-                placeholder="Sinopsis de la pelicula...">
-        </div>
-            <div>
-            <label for="genero">Genero:</label>
-            <input type="text" name="genero"
-                placeholder="Genero de la pelicula...">
-        </div>
-        <button type="submit">Enviar</button>
-    </form>
+    <section class="bg-white/10 rounded-md p-4">
+        <form class="flex flex-col gap-4" action="/films" method="post">
+            <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
+                <span class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></span>
+                <label for="titulo" class="ml-2 text-white font-medium">Titulo:</label>
+                <input class="p-2 w-full bg-transparent outline-0 text-white" type="text" name="titulo" id="titulo" placeholder="Titulo de la pelicula..." value="{{ film.titulo }}">
+            </div>
+            <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
+                <span class="icon-[material-symbols--person] size-5 ml-2 bg-gray-400"></span>
+                <label for="director" class="ml-2 text-white font-medium">Director:</label>
+                <input class="p-2 w-full bg-transparent outline-0 text-white" type="text" name="director" id="director" placeholder="Director de la pelicula..." value="{{ film.director }}">
+            </div>
+            <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
+                <span class="icon-[mdi--calendar] size-5 ml-3 bg-gray-400"></span>
+                <label for="anyo" class="ml-2 text-white font-medium">Año:</label>
+                <input class="p-2 w-full bg-transparent outline-0 text-white" min="0" type="number" name="anyo" id="anyo" placeholder="Año de la pelicula..." value="{{ film.anyo }}">
+            </div>
+
+            <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
+                <span class="icon-[pajamas--book] size-4 ml-3 bg-gray-400"></span>
+                <label for="sinopsis" class="ml-2 text-white font-medium">Sinopsis:</label>
+                <input class="p-2 w-full bg-transparent outline-0 text-white" type="text" name="sinopsis" id="sinopsis" placeholder="Sinopsis de la pelicula..." value="{{ film.sinopsis }}">
+            </div>
+            <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
+                <span class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></span>
+                <label for="genero" class="ml-2 text-white font-medium">Genero:</label>
+                <input class="p-2 w-full bg-transparent outline-0 text-white" type="text" name="genero" id="genero" placeholder="Genero de la pelicula..." value="{{ film.genero }}">
+            </div>
+            <button type="submit" class="button bg-blue-800 cursor-pointer">
+                <span class="icon-[material-symbols--search] size-5 rotate-90"></span>
+                <span>Enviar</span>
+            </button>
+        </form>
+    </section>
 
 {% endblock %}
