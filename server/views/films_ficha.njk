@@ -28,7 +28,7 @@
             {% endif %}
         </div>
 
-        {# Botones: el include trae el botón + modal de nuevo comentario #}
+        {# Botones: el include trae el botón y modal de nuevo comentario #}
         <div class="flex gap-3 mt-4">
             {% include "detail_nuevo.njk" %}
 
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    {# ── Listado de comentarios ── #}
+    {#  Listado de comentarios #}
     <div class="bg-white rounded-2xl shadow p-6">
         <h2 class="text-xl font-bold mb-4 text-slate-700">
             Comentarios ({{ comentarios | length }})
@@ -76,14 +76,14 @@
                         <aside>
                             <div class="flex items-center mt-3">
                                 <button type="button"
-                                    onclick="document.getElementById('modalEditar-{{ c.id }}').showModal()"
+                                    onclick="document.getElementById('modalEditar-{{ c._id }}').showModal()"
                                     class="border border-slate-300 hover:bg-slate-100 text-slate-700
                                            font-medium rounded-lg text-xs px-3 py-1.5">
                                     Editar comentario
                                 </button>
 
                                  {# Botón eliminar #}
-                                <form action="/details/{{ c.id }}" method="post">
+                                <form action="/details/{{ c._id }}" method="post">
                                     <input type="hidden" name="_method" value="delete">
                                     <button type="submit"
                                         class="border border-red-300 hover:bg-red-100 text-red-600
@@ -100,14 +100,14 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <p class="text-slate-400">No hay comentarios todavía. ¡Sé el primero!</p>
+            <p class="text-slate-400">No hay comentarios todavía.</p>
         {% endif %}
     </div>
 
-    {# ── Recomendaciones ── #}
+    {# Recomendaciones#}
     {% if recomendaciones | length > 0 %}
         <div class="bg-white rounded-2xl shadow p-6">
-            <h2 class="text-xl font-bold mb-4 text-slate-700">🎬 Te puede interesar</h2>
+            <h2 class="text-xl font-bold mb-4 text-slate-700"> <span class="icon-[ion--film-marker]"></span> Te puede interesar</h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {% for r in recomendaciones %}
                     <a href="/details/{{ r.id }}"

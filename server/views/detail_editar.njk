@@ -1,13 +1,13 @@
 {# Recibe: c (el comentario actual, del for loop en films_ficha.njk) #}
 
-<dialog id="modalEditar-{{ c.id }}"
+<dialog id="modalEditar-{{ c._id }}"
     class="rounded-2xl shadow-xl p-0 w-full max-w-lg backdrop:bg-black/50">
     <div class="bg-white rounded-2xl overflow-hidden">
         <div class="bg-gray-800 px-6 py-4">
             <h3 class="text-lg font-semibold text-white">Editar comentario</h3>
         </div>
 
-        <form action="/details/{{ c.id }}" method="post" class="px-6 py-4 space-y-4">
+        <form action="/details/{{ c._id }}" method="post" class="px-6 py-4 space-y-4">
             <input type="hidden" name="_method" value="put">
 
             <div>
@@ -30,7 +30,7 @@
             </div>
             <div class="flex justify-end gap-3 pt-2">
                 <button type="button"
-                    onclick="document.getElementById('modalEditar-{{ c.id }}').close()"
+                    onclick="document.getElementById('modalEditar-{{ c._id }}').close()"
                     class="bg-slate-200 hover:bg-slate-300 text-slate-700
                            font-semibold py-2 px-4 rounded-xl text-sm">
                     Cancelar

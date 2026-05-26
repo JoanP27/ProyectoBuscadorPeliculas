@@ -30,6 +30,14 @@
     </section>
     <section class="flex flex-col gap-4">
         {% for film in films %}
+            {% if film.mediaValoracion > 0 %}
+        <section class="flex items-center gap-2 text-gray-300 text-sm">
+            <span class="tag border border-yellow-600 flex flex-row gap-2 p-2">
+                <span class="icon-[noto--star] size-4"></span>
+                <span>{{ film.mediaValoracion }} / 5</span>
+            </span>
+        </section>
+        {% endif %}
             <section class="film-item flex flex-row items-center justify-between gap-6 p-4">
                 <div class="flex-1">
                     <p class="text-lg p-1">{{film.titulo}}</p>

@@ -4,7 +4,21 @@ import Film from '../models/film.js';
 
 let router = Router();
 
-// GET /details/:id  ficha de película con comentarios
+
+// Ruta para datos del comentario modal
+router.get('/editar/:id', (req, res) => {
+    Detail.findById(req.params.id).then(resultado => {
+        if (resultado) {
+            res.render('detail_editar', { detail: resultado });
+        } else {
+            res.render('error', { error: "Comentario no encontrado" });
+        }
+    }).catch(error => {
+        res.render('error', { error: "Comentario no encontrado" });
+    });
+});
+
+// Obtener ficha de película con comentarios
 router.get('/:id', async (req, res) => {
     try {
         let film = await Film.findById(req.params.id);
@@ -56,18 +70,6 @@ router.get('/:id', async (req, res) => {
 });
 
 
-// Ruta para datos del comentario modal
-router.get('/editar/:id', (req, res) => {
-    Detail.findById(req.params.id).then(resultado => {
-        if (resultado) {
-            res.render('detail_editar', { detail: resultado });
-        } else {
-            res.render('error', { error: "Comentario no encontrado" });
-        }
-    }).catch(error => {
-        res.render('error', { error: "Comentario no encontrado" });
-    });
-});
 
 // Ruta para añadir un comentario
 router.post('/nuevo/:filmId', async (req, res) => {
@@ -100,27 +102,39 @@ router.post('/nuevo/:filmId', async (req, res) => {
 
 
 // Ruta para editar comentarios
-router.put('/:id', (req, res) => {
-    Detail.findByIdAndUpdate(req.params.id, {
-        $set: {
-            texto: req.body.texto,
-            valoracion: req.body.valoracion   
-        }
-    }, {new: true}).then(resultado => {
-        res.redirect(req.baseUrl);
-    }).catch(error => {
-        res.render('error', {error: "Error modificando comentario"});
-    });
+router.put('/:id', async (req, res) => {
+    try {
+        // Buscamos el comentario asociado al idFilm
+        let comentario = await Detail.findById(req.params.id);
+        let filmId = comentario.filmId;
+
+        await Detail.findByIdAndUpdate(req.params.id, {
+            $set: {
+                texto: req.body.texto,
+                valoracion: req.body.valoracion
+            }
+        }, { new: true });
+
+        res.redirect('/details/' + filmId);   //redirige a la ficha
+
+    } catch (error) {
+        res.render('error', { error: "Error modificando comentario" });
+    }
 });
 
-
 // Ruta para borrar comentarios 
-router.delete('/:id', (req, res) => {
-    Detail.findByIdAndDelete(req.params.id).then(resultado => {
-        res.redirect('back');
-    }).catch(error => {
-        res.render('error', {error: "Error borrando comentario"});
-    });
+router.delete('/:id', async (req, res) => {
+    try {
+        let comentario = await Detail.findById(req.params.id);
+        let filmId = comentario.filmId;
+
+        await Detail.findByIdAndDelete(req.params.id);
+
+        res.redirect('/details/' + filmId);   // redirige a la ficha
+
+    } catch (error) {
+        res.render('error', { error: "Error borrando comentario" });
+    }
 });
 
 export default router;

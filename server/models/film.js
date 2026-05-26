@@ -32,12 +32,6 @@ let filmSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 3,
-    },
-    valoracionMedia:{
-        type: Number,
-        required: true,
-        min: 1,
-        max: 5 
     }
 });
 // Asociación con el modelo (colección contactos)

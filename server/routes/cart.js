@@ -23,7 +23,8 @@ router.post('/anyadir/:id', async (req,res) => {
 
         let itExists =  req.session.cart.find(f => f.id === film.id.toString());
     
-        if (itExists){
+        // Añade al carrito si no existe
+        if (!itExists){
             req.session.cart.push({
                 id: film.id.toString(),
                 titulo: film.titulo,
@@ -42,7 +43,7 @@ router.post('/anyadir/:id', async (req,res) => {
     }
 });
 
-// DELETE /carrito/:id  →  eliminar una película del carrito
+// Eliminar una película del carrito
 router.delete('/:id', (req, res) => {
     if (req.session.cart) {
         req.session.cart = req.session.cart.filter(
