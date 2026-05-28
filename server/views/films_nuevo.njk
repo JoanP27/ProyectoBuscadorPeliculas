@@ -4,9 +4,65 @@
 
 {% block contenido %}
 
-    <h1>Inserción de nueva pelicula</h1>
+    <h1 class="text-2xl mt-7 mb-5">Registrar una nueva pelicula</h1>
 
-    <form action="/films" method="post">
+    <section class=" bg-white/10 rounded-md p-4">
+        <form action="/films" method="post">
+            <!-- Seccion de la imagen -->
+            <section>
+                
+            </section>
+
+            <!-- Seccion de datos -->
+            <section class=" flex flex-col gap-5">
+                <div class="p-0 m-0 flex flex-col gap-1">
+                    <label for="titulo" class="text-gray-400">Titulo</label>
+                    <input placeholder="Titulo" id="titulo" name="titulo" 
+                        class="text-input p-2 outline-0 border-2 border-white/0 user-invalid:border-red-600/70" required>
+                </div>
+                <div class="p-0 m-0 flex flex-col gap-1">
+                    <label for="titulo" class="text-gray-400">Sinopsis</label>
+                    <textarea max-length="500" rows="5" placeholder="Sinopsis" id="sinopsis" name="sinopsis"
+                        class="text-input p-2 outline-0 resize-none border-2 border-white/0 user-invalid:border-red-600 required"></textarea>
+                </div>
+
+                <div class="flex gap-5">
+                    <span class="tag border border-blue-600 bg-blue-800/20 flex flex-row items-center gap-2 p-2">
+                        <span class="icon-[mdi--calendar] size-4.5"></span>
+                        <span>
+                            <input min="1800" name="anyo" id="anyo" max="2100" type="number" placeholder="Año" type="text" class="outline-0">
+                        </span>
+                    </span>
+                    <span class="tag border  border-purple-600  bg-purple-800/20 flex flex-row items-center gap-2 p-2">
+                        <span class="icon-[streamline-plump--film-slate-remix] size-4"></span>
+                        <span>
+                            <input type="text" minlength="3" name="genero" id="genero"  placeholder="Categoria" type="text" class="outline-0">
+                        </span>
+                    </span>
+                    <span class="tag border border-green-600 flex bg-green-800/20 flex-row items-center gap-2 p-2">
+                        <span class="icon-[material-symbols--person] size-5"></span>
+                        <span>
+                            <input placeholder="Director" name="director" id="director" type="text" class="outline-0 w-100" minlength="3" maxlength="50">
+                        </span>
+                    </span>
+                </div>
+                <hr class=" border-white/20 mt-5">
+                <div class="flex gap-3">
+                    <button type="submit" class="button bg-blue-800 px-5">
+                        <span class="icon-[material-symbols--save] size-4.5"></span>
+                        <span>Guardar</span>
+                    </button>
+                    <button type="submit" class="button bg-gray-600 px-5">
+                        <span class="icon-[material-symbols--delete-outline] size-5"></span>
+                        <span>Limpiar</span>
+                    </button>
+                </div>
+            </section>
+        </form>
+    </section>
+
+
+    <!--form action="/films" method="post">
         <div>
             <label for="titulo">Titulo:</label>
             <input type="text" name="titulo" 
@@ -33,6 +89,6 @@
                 placeholder="Genero de la pelicula...">
         </div>
         <button type="submit">Enviar</button>
-    </form>
+    </form-->
 
 {% endblock %}
