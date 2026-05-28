@@ -33,8 +33,13 @@ router.get('/', async (req, res) => {
         }
     }
 
-     try {
-        let films = await Film.find(filtros);
+    console.log(filtros)
+
+    try {
+         const resultado = await Film.find(filtros);
+         resultado = resultado.toSorted((f1, f2) => params.orden === 'asc' ? 
+            f1.titulo.localeCompare(f2.titulo) :
+            f2.titulo.localeCompare(f1.titulo));
 
         // Para cada película calculamos su valoración media
         let filmsConMedia = await Promise.all(films.map(async film => {
@@ -52,7 +57,6 @@ router.get('/', async (req, res) => {
         res.render('film_listado', {films: filmsConMedia, params: params});
     } catch(error) {
         res.render('error', { error: "Error listando películas" });
-        // Aquí podríamos renderizar una página de error
     }
 });
 
