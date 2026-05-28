@@ -1,6 +1,6 @@
 {% extends "base.njk" %}
 
-{% block titulo %}Pelu+ | Carrito{% endblock %}
+{% block titulo %}Pelicula | Carrito{% endblock %}
 
 {% block contenido %}
 
@@ -12,7 +12,10 @@
             {% for pelicula in cart %}
                 <li>
                     <div>
-                        <p class="font-semibold text-slate-800">{{ pelicula.titulo }}</p>
+                       <a href="/films/{{ pelicula.id }}" 
+                        class="font-semibold hover:underline">
+                        {{ pelicula.titulo }}
+                      </a>
                         <p class="text-sm text-slate-500">
                             {{ pelicula.director }} · {{ pelicula.anyo }} · {{ pelicula.genero }}
                         </p>

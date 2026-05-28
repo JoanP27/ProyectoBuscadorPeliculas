@@ -16,7 +16,7 @@ let router = Router();
 
 // devuelve un listado con todos las peliculas registradas en la base de datos.
 // /film
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 
     // Los parametros de busqueda
     const params = {...req.query};
@@ -35,16 +35,35 @@ router.get('/', (req, res) => {
 
     console.log(filtros)
 
-    Film.find(filtros).then(resultado => {
-        res.render('film_listado', {
-            films: resultado.toSorted((f1, f2) => params.orden === 'asc' ?
-                f1.titulo.localeCompare(f2.titulo) : f2.titulo.localeCompare(f1.titulo)),
-        params: params});
-    }).catch(error => {
-        // Aquí podríamos renderizar una página de error
-    });
+    try {
+         const resultado = await Film.find(filtros);
+         resultado = resultado.toSorted((f1, f2) => params.orden === 'asc' ? 
+            f1.titulo.localeCompare(f2.titulo) :
+            f2.titulo.localeCompare(f1.titulo));
+
+        // Para cada película calculamos su valoración media
+        let filmsConMedia = await Promise.all(films.map(async film => {
+            let comentarios = await Detail.find({ filmId: film._id });
+            let mediaValoracion = 0;
+            if (comentarios.length > 0) {
+                let suma = comentarios.reduce((acc, c) => acc + c.valoracion, 0);
+                mediaValoracion = (suma / comentarios.length).toFixed(1);
+            }
+            let obj = film.toObject();
+            obj.mediaValoracion = mediaValoracion;
+            return obj;
+        }));
+
+        res.render('film_listado', {films: filmsConMedia, params: params});
+    } catch(error) {
+        res.render('error', { error: "Error listando películas" });
+    }
 });
 
+// Formulario de alta de pelicula
+router.get('/nuevo', (req, res) => {
+    res.render('films_nuevo');
+});
 
 //routa editar
 router.get('/editar/:id', (req, res) => {
@@ -59,26 +78,61 @@ router.get('/editar/:id', (req, res) => {
     });
 });
 
-// Formulario de alta de pelicula
-router.get('/nuevo', (req, res) => {
-    res.render('films_nuevo');
-});
-
 
 //buscar id
-router.get('/:id', (req, res) => {
-    Film.findById(req.params['id']).then(resultado => {
-        res.render('films_ficha', {film: resultado});
-    }).catch(error => {
-        // Aquí podríamos renderizar una página de error
-    });
+router.get('/:id', async(req, res) => {
+    try {
+        let film = await Film.findById(req.params.id);
+
+        if (!film) {
+            return res.render('error', { error: 'Película no encontrada' });
+        }
+
+        let comentarios = await Detail.find({ filmId: req.params.id })
+                                      .sort({ fecha: -1 });
+
+        let comentariosFormateados = comentarios.map(c => {
+            let fecha = new Date(c.fecha);
+            let fechaFormateada = fecha.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            let obj = c.toObject();
+            obj.fechaFormateada = fechaFormateada;
+            return obj;
+        });
+
+        let mediaValoracion = 0;
+        if (comentarios.length > 0) {
+            let suma = comentarios.reduce((acc, c) => acc + c.valoracion, 0);
+            mediaValoracion = (suma / comentarios.length).toFixed(1);
+        }
+
+        let todasFilms = await Film.find({ _id: { $ne: req.params.id } });
+        let recomendaciones = todasFilms
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 3);
+
+        res.render('films_ficha', {
+            film,
+            comentarios: comentariosFormateados,
+            mediaValoracion,
+            recomendaciones,
+            cart: req.session.cart || []
+        });
+
+    } catch (error) {
+        res.render('error', { error: 'Error buscando la película' });
+    }
 });
+
 
 //----------------------POST-----------------------------
 //crea una nueva pelicula en la base de datos a partir de los datos
 // enviados en el cuerpo de la petición (body) en formato JSON
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
 
     let nuevaFilm = new Film({
         titulo: req.body.titulo,
