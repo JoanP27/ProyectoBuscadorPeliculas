@@ -36,8 +36,8 @@ router.get('/', async (req, res) => {
     console.log(filtros)
 
     try {
-         const resultado = await Film.find(filtros);
-         resultado = resultado.toSorted((f1, f2) => params.orden === 'asc' ? 
+         let films = await Film.find(filtros);
+         films = films.toSorted((f1, f2) => params.orden === 'asc' ? 
             f1.titulo.localeCompare(f2.titulo) :
             f2.titulo.localeCompare(f1.titulo));
 

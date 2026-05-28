@@ -14,10 +14,9 @@ const listado = Array.from(listadoElemento.children)
 
 const filtrar = () => {
     var listaFiltrada = listado.filter(l => {
-        const title = l.children[0];
-        const anyo = l.children[2].children[1].firstElementChild.lastElementChild
-        const director = l.children[2].children[2].firstElementChild.lastElementChild
-
+        const title = l.children[0].children[0];
+        const anyo = l.children[0].children[2].children[1].children[0].lastElementChild;
+        const director = l.children[0].children[2].children[2].children[0].lastElementChild;
         console.log(title.textContent.toLocaleLowerCase().includes(buscador.value.toLocaleLowerCase()), anyo.textContent === filtros['anyo'].value)
 
         return title.textContent.toLocaleLowerCase().includes(buscador.value.toLocaleLowerCase()) &&
