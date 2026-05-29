@@ -14,6 +14,8 @@
     {% endfor %}
     <script type="module" src="{{ viteAsset() }}"></script>
   {% endif %}
+  {% block scripts %}
+  {% endblock %}
 </head>
 <body class="body">
     {% include "menu.njk" %}

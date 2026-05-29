@@ -22,8 +22,9 @@ const __dirname = path.dirname(__filename)
 
 connectMongo()
 
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+// Configura el tamaño limite a 200kb para poder subir imagenes con base64
+app.use(express.urlencoded({ extended: true, limit: '200kb' }))
+app.use(express.json({limit: '200kb'}))
 
 app.use(session({
     secret: process.env.SECRETO || 'clave_secreta_carrito',

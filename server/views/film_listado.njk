@@ -2,6 +2,12 @@
 
 {% block titulo %}Peliculas | Listado{% endblock %}
 
+{% block scripts %} 
+
+<script type="module" src="http://localhost:5173/js/buscador_peliculas.js"></script>
+
+{% endblock %}
+
 {% block contenido %}
 
     <section class="bg-white/10 rounded-md mb-4 p-4">
@@ -46,30 +52,44 @@
         </section>
         {% endif %}
             <section class="film-item flex flex-row items-center justify-between gap-6 p-4">
-                <div class="flex-1">
-                    <p class="text-lg p-1">{{film.titulo}}</p>
-                    <p class="p-1">{{film.sinopsis}}</p>
-                    <section class="flex flex-row gap-3 mt-10">
-                        <section class="flex items-center gap-2 text-gray-300 text-sm">
-                            <span class="tag border border-purple-600 flex flex-row gap-2 p-2">
-                                <span class="icon-[streamline-plump--film-slate-remix] size-4.5"></span>
-                                <span>{{film.genero}}</span>
-                            </span>
+                <section class="flex gap-10">
+                    <div class="w-50 h-50 rounded-md">
+                        {% if film.imagen == undefined %}
+                            <div class="flex flex-col border border-white/20 rounded-md h-full justify-center items-center">
+                                <span class="icon-[mdi-light--picture] size-30 text-white/20"></span>
+                            </div>
+                        {% else %}
+                            <img class="object-cover rounded-md h-full" src="{{film.imagen}}">    
+                        {% endif %}
+                    </div>
+                    <div class="flex flex-col justify-between py-2">
+                        <section>
+                            <p class="text-lg p-1">{{film.titulo}}</p>
+                            <p class="p-1">{{film.sinopsis}}</p>
                         </section>
-                        <section class="flex items-center gap-2 text-gray-300 text-sm">
-                            <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
-                                <span class="icon-[mdi--calendar] size-4.5"></span>
-                                <span>{{film.anyo}}</span>
-                            </span>
+                        <section class="flex flex-row gap-3 mt-10">
+                            <section class="flex items-center gap-2 text-gray-300 text-sm">
+                                <span class="tag border border-purple-600 flex flex-row gap-2 p-2">
+                                    <span class="icon-[streamline-plump--film-slate-remix] size-4.5"></span>
+                                    <span>{{film.genero}}</span>
+                                </span>
+                            </section>
+                            <section class="flex items-center gap-2 text-gray-300 text-sm">
+                                <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
+                                    <span class="icon-[mdi--calendar] size-4.5"></span>
+                                    <span>{{film.anyo}}</span>
+                                </span>
+                            </section>
+                            <section class="flex items-center gap-2 text-gray-300 text-sm">
+                                <span class="tag border border-green-600 flex flex-row gap-2 p-2">
+                                    <span class="icon-[material-symbols--person] size-5"></span>
+                                    <span>{{film.director}}</span>
+                                </span>
+                            </section>
                         </section>
-                        <section class="flex items-center gap-2 text-gray-300 text-sm">
-                            <span class="tag border border-green-600 flex flex-row gap-2 p-2">
-                                <span class="icon-[material-symbols--person] size-5"></span>
-                                <span>{{film.director}}</span>
-                            </span>
-                        </section>
-                    </section>
-                </div>
+                    </div>
+                </section>
+                
                 <div class="flex flex-row items-center gap-4">
                     <a href="/films/editar/{{ film._id }}" 
                         class="flex items-center justify-center p-2 rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer">

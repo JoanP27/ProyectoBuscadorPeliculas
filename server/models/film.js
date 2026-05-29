@@ -32,6 +32,9 @@ let filmSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 3,
+    },
+    imagen: {
+        type: String
     }
 });
 // Asociación con el modelo (colección contactos)

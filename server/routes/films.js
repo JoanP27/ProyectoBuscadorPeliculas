@@ -139,8 +139,12 @@ router.post('/', async (req, res) => {
         director: req.body.director,
         anyo: req.body.anyo,
         sinopsis: req.body.sinopsis,
-        genero: req.body.genero
+        genero: req.body.genero,
+        imagen: req.body.imagen
     });
+
+    console.log(nuevaFilm)
+
     nuevaFilm.save().then(resultado => {
         res.redirect(req.baseUrl);
     }).catch(error => {
@@ -173,7 +177,7 @@ router.put('/:id', (req, res) => {
             director: req.body.director,
             anyo: req.body.anyo,
             sinopsis: req.body.sinopsis,
-            genero: req.body.genero
+            genero: req.body.genero,
         }
     }, {new: true}).then(resultado => {
         res.redirect(req.baseUrl);
