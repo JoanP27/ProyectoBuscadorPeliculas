@@ -9,44 +9,43 @@
 {% endblock %}
 
 {% block contenido %}
-
-    <section class="bg-white/10 rounded-md mb-4 p-4">
-        <form class="flex gap-2" action="/films" method="get">
-            <section class="text-input p-0 m-0 flex items-center">
-                <label for="titulo" class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></label>
-                <input value="{{params.titulo}}" placeholder="Titulo" class="p-2 w-60 rounded-md outline-0" type="text" name="titulo" id="titulo">
-            </section>
-            <section class="text-input p-0 m-0 flex items-center">
-                <label for="titulo" class="icon-[mdi--calendar] size-5 ml-3 bg-gray-400"></label>
-                <input value='{{params.anyo}}' placeholder="Año" class="p-2 w-30 rounded-md outline-0" min=0 type="number" name="anyo" id="anyo">
-            </section>
-            <section class="text-input p-0 m-0 flex items-center">
-                <label for="director" class="icon-[material-symbols--person] size-5 ml-2 bg-gray-400"></label>
-                <input value='{{params.director}}' placeholder="Director" class="p-2 w-30 rounded-md outline-0" type="text" name="director" id="director">
-            </section>
-            <section class="text-input p-0 m-0 flex items-center">
-                <label for="director" class="icon-[mdi--sort-alphabetical-ascending] size-5 ml-2 bg-gray-400"></label>
-                <select class="p-2 w-35 rounded-md outline-0" type="text" name="orden" id="orden">
-                    <option value="asc" class="bg-gray-800">Ascendente</option>
-                    <option value="desc" selected class="bg-gray-800">Descendente</option>
-                </select>
-            </section>
-            <button type="submit" class="button bg-blue-800 cursor-pointer">
-                <span class="icon-[material-symbols--search] size-5"></span>
-                <span>Buscar</span>
-            </button>
-            <button type="reset" class="button bg-red-800 cursor-pointer">
-                <span class="icon-[pajamas--remove] size-4"></span>
-                <span>Limpiar</span>
-            </button>
-        </form>
-    </section>
-    <section class="flex flex-col gap-4" id="listadoPeliculas">
-       {% for film in films %}
+<section class="bg-white/10 rounded-md mb-4 p-4">
+    <form class="flex gap-2" action="/films" method="get">
+        <section class="text-input p-0 m-0 flex items-center">
+            <label for="titulo" class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></label>
+            <input value="{{params.titulo}}" placeholder="Titulo" class="p-2 w-60 rounded-md outline-0" type="text" name="titulo" id="titulo">
+        </section>
+        <section class="text-input p-0 m-0 flex items-center">
+            <label for="titulo" class="icon-[mdi--calendar] size-5 ml-3 bg-gray-400"></label>
+            <input value='{{params.anyo}}' placeholder="Año" class="p-2 w-30 rounded-md outline-0" min=0 type="number" name="anyo" id="anyo">
+        </section>
+        <section class="text-input p-0 m-0 flex items-center">
+            <label for="director" class="icon-[material-symbols--person] size-5 ml-2 bg-gray-400"></label>
+            <input value='{{params.director}}' placeholder="Director" class="p-2 w-30 rounded-md outline-0" type="text" name="director" id="director">
+        </section>
+        <section class="text-input p-0 m-0 flex items-center">
+            <label for="director" class="icon-[mdi--sort-alphabetical-ascending] size-5 ml-2 bg-gray-400"></label>
+            <select class="p-2 w-35 rounded-md outline-0" type="text" name="orden" id="orden">
+                <option value="asc" class="bg-gray-800">Ascendente</option>
+                <option value="desc" selected class="bg-gray-800">Descendente</option>
+            </select>
+        </section>
+        <button type="submit" class="button bg-blue-800 cursor-pointer">
+            <span class="icon-[material-symbols--search] size-5"></span>
+            <span>Buscar</span>
+        </button>
+        <button type="reset" class="button bg-red-800 cursor-pointer">
+            <span class="icon-[pajamas--remove] size-4"></span>
+            <span>Limpiar</span>
+        </button>
+    </form>
+</section>
+<section class="flex flex-col gap-4" id="listadoPeliculas">
+    {% for film in films %}
     <section class="film-item flex flex-row items-center justify-between gap-6 p-4">
         <section class="flex gap-10">
-            <div class="w-80 h-80 rounded-md flex-shrink-0">
-                {% if film.imagen == undefined %}
+            <div class="w-80 h-80 rounded-md shrink-0">
+                {% if film.imagen == undefined or film.imagen == "" %}
                     <div class="flex flex-col border border-white/20 rounded-md h-full justify-center items-center">
                         <span class="icon-[mdi-light--picture] size-30 text-white/20"></span>
                     </div>
@@ -56,9 +55,9 @@
                     </a>
                 {% endif %}
             </div>
-            <div class="flex flex-col justify-start gap-2 py-2">
+            <div class="flex flex-col justify-between gap-2 py-2">
                 <section>
-                    <a href="/films/{{ film._id }}" class="text-lg p-1 hover:underline cursor-pointer">
+                    <a href="/films/{{ film._id }}" class="titulo text-lg p-1 hover:underline cursor-pointer">
                         {{film.titulo}}
                     </a>
                     <p class="p-1">{{film.sinopsis}}</p>
@@ -84,19 +83,18 @@
                     <section class="flex items-center gap-2 text-gray-300 text-sm">
                         <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
                             <span class="icon-[mdi--calendar] size-4.5"></span>
-                            <span>{{film.anyo}}</span>
+                            <span class="anyo">{{film.anyo}}</span>
                         </span>
                     </section>
                     <section class="flex items-center gap-2 text-gray-300 text-sm">
                         <span class="tag border border-green-600 flex flex-row gap-2 p-2">
                             <span class="icon-[material-symbols--person] size-5"></span>
-                            <span>{{film.director}}</span>
+                            <span class="director">{{film.director}}</span>
                         </span>
                     </section>
                 </section>
             </div>
         </section>
-
         <div class="flex flex-row items-center gap-4">
             <a href="/films/editar/{{ film._id }}"
                 class="flex items-center justify-center p-2 rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer">
@@ -113,6 +111,6 @@
         </div>
     </section>
 {% endfor %}
-    </section>
+</section>
 
 {% endblock %}

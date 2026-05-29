@@ -35,11 +35,20 @@ router.get('/', async (req, res) => {
 
     console.log(filtros)
 
+    const limite = 10
+    const pagina = 0
+    const orden = params.orden === 'asc' ? 
+            1 :
+           -1;
+
     try {
-         let films = await Film.find(filtros);
-         films = films.toSorted((f1, f2) => params.orden === 'asc' ? 
-            f1.titulo.localeCompare(f2.titulo) :
-            f2.titulo.localeCompare(f1.titulo));
+        let films = await Film.find(filtros).sort({titulo: orden}).skip(limite * pagina).limit(limite);
+
+        // Saca el total de peliculas
+        const totalPeliculas = await Film.countDocuments(filtros);
+
+        // Redondeamos hacia arriba el resultado del numero de paginas
+        const totalPaginas = Math.ceil(totalPeliculas / limite)
 
         // Para cada película calculamos su valoración media
         let filmsConMedia = await Promise.all(films.map(async film => {
@@ -54,7 +63,11 @@ router.get('/', async (req, res) => {
             return obj;
         }));
 
-        res.render('film_listado', {films: filmsConMedia, params: params});
+        res.render('film_listado', {films: filmsConMedia, params: params,
+            page: pagina,
+            totalPages: totalPaginas,
+            limit: limite
+        });
     } catch(error) {
         res.render('error', { error: "Error listando películas" });
     }
@@ -178,6 +191,7 @@ router.put('/:id', (req, res) => {
             anyo: req.body.anyo,
             sinopsis: req.body.sinopsis,
             genero: req.body.genero,
+            imagen: req.body.imagen
         }
     }, {new: true}).then(resultado => {
         res.redirect(req.baseUrl);
