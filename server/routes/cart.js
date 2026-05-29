@@ -30,7 +30,9 @@ router.post('/anyadir/:id', async (req,res) => {
                 titulo: film.titulo,
                 director: film.director,
                 genero: film.genero,
-                anyo: film.anyo
+                anyo: film.anyo,
+                imagen: film.imagen
+
 
             });
         }

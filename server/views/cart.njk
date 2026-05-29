@@ -5,32 +5,40 @@
 {% block contenido %}
 
 <div class="max-w-2xl mx-auto mt-8">
-    <h1 class="text-3xl font-bold mb-6 text-slate-800">Tu carrito</h1>
+    <h1 class="text-3xl font-bold mb-6 text-slate-300">Tu carrito</h1>
 
     {% if cart | length > 0 %}
         <ul class="space-y-4">
-            {% for pelicula in cart %}
-                <li>
-                    <div>
-                       <a href="/films/{{ pelicula.id }}" 
-                        class="font-semibold hover:underline">
-                        {{ pelicula.titulo }}
-                      </a>
-                        <p class="text-sm text-slate-500">
-                            {{ pelicula.director }} · {{ pelicula.anyo }} · {{ pelicula.genero }}
-                        </p>
-                    </div>
-                    <form action="/cart/{{ pelicula.id }}" method="post">
-                        <input type="hidden" name="_method" value="delete">
-                        <button type="submit"
-                            class="bg-red-500 hover:bg-red-600 text-white font-semibold">
-                            Eliminar
-                        </button>
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
+           {% for pelicula in cart %}
+    <li class="flex gap-4 items-center bg-white rounded-xl shadow p-4">
 
+        {# Imagen #}
+        <img src="{{ pelicula.imagen }}" alt="{{ pelicula.titulo }}"
+            class="w-16 h-24 object-cover rounded-lg flex-shrink-0">
+
+        {# Datos #}
+        <div class="flex-1">
+            <a href="/films/{{ pelicula.id }}"
+                class="font-semibold hover:underline text-slate-800">
+                {{ pelicula.titulo }}
+            </a>
+            <p class="text-sm text-slate-500">
+                {{ pelicula.director }} · {{ pelicula.anyo }} · {{ pelicula.genero }}
+            </p>
+        </div>
+
+        {# Botón eliminar #}
+        <form action="/cart/{{ pelicula.id }}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit"
+                class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm">
+                Eliminar
+            </button>
+        </form>
+
+    </li>
+{% endfor %} 
+        </ul>
         <p>
             Total: <strong>{{ cart | length }} película(s)</strong> en tu carrito
         </p>
