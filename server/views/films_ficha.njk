@@ -6,42 +6,52 @@
 
 <div class="max-w-3xl mx-auto mt-8 space-y-8 px-4">
 
-    {# Datos de la película #}
+    {# Card principal #}
     <div class="bg-white rounded-2xl shadow p-6">
-        <h1 class="text-3xl font-bold mb-4 text-slate-800">{{ film.titulo }}</h1>
-        <p><strong>Director:</strong> {{ film.director }}</p>
-        <p><strong>Año:</strong> {{ film.anyo }}</p>
-        <p><strong>Género:</strong> {{ film.genero }}</p>
-        <p class="mt-2 text-slate-600">{{ film.sinopsis }}</p>
+        <div class="flex gap-6">
 
-        {# Valoración media #}
-        <div class="flex items-center mt-3">
-            {% if mediaValoracion > 0 %}
-                {% for i in range(0, 5) %}
-                   <span class="icon-[noto--star]"></span>
-                {% endfor %}
-                <p class="ms-2 text-sm font-bold text-slate-700">{{ mediaValoracion }}</p>
-                <span class="w-1 h-1 mx-1.5 bg-slate-400 rounded-full"></span>
-                <span class="text-sm text-slate-500">{{ comentarios | length }} reseñas</span>
-            {% else %}
-                <span class="text-slate-400 text-sm">Sin valoraciones todavía</span>
-            {% endif %}
-        </div>
+            {# Imagen a la izquierda #}
+            <img src="{{ film.imagen }}" alt="{{ film.titulo }}"
+                class="w-48 object-cover rounded-xl flex-shrink-0">
 
-        {# Botones: el include trae el botón y modal de nuevo comentario #}
-        <div class="flex gap-3 mt-4">
-            {% include "detail_nuevo.njk" %}
+            {# Datos a la derecha #}
+            <div class="flex flex-col flex-1">
+                <h1 class="text-3xl font-bold mb-4 text-slate-800">{{ film.titulo }}</h1>
+                <p class="mt-2 text-slate-600"><strong>Director:</strong> {{ film.director }}</p>
+                <p class="mt-2 text-slate-600"><strong>Año:</strong> {{ film.anyo }}</p>
+                <p class="mt-2 text-slate-600"><strong>Género:</strong> {{ film.genero }}</p>
+                <p class="mt-2 text-slate-600">{{ film.sinopsis }}</p>
 
-            <form action="/cart/anyadir/{{ film.id }}" method="post">
-                <button type="submit"
-                    class="bg-purple-900 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-xl">
-                    <span class="icon-[mdi--cart]"></span> Añadir al carrito
-                </button>
-            </form>
-        </div>
-    </div>
+                {# Valoración media #}
+                <div class="flex items-center mt-3">
+                    {% if mediaValoracion > 0 %}
+                        {% for i in range(0, 5) %}
+                            <span class="icon-[noto--star]"></span>
+                        {% endfor %}
+                        <p class="ms-2 text-sm font-bold text-slate-700">{{ mediaValoracion }}</p>
+                        <span class="w-1 h-1 mx-1.5 bg-slate-400 rounded-full"></span>
+                        <span class="text-sm text-slate-500">{{ comentarios | length }} reseñas</span>
+                    {% else %}
+                        <span class="text-slate-400 text-sm">Sin valoraciones todavía</span>
+                    {% endif %}
+                </div>
 
-    {#  Listado de comentarios #}
+                {# Botones #}
+                <div class="flex gap-3 mt-4">
+                    {% include "detail_nuevo.njk" %}
+                    <form action="/cart/anyadir/{{ film.id }}" method="post">
+                        <button type="submit"
+                            class="bg-purple-900 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-xl">
+                            <span class="icon-[mdi--cart]"></span> Añadir al carrito
+                        </button>
+                    </form>
+                </div>
+
+            </div> 
+        </div>     
+    </div>         
+
+    {# Card comentarios #}
     <div class="bg-white rounded-2xl shadow p-6">
         <h2 class="text-xl font-bold mb-4 text-slate-700">
             Comentarios ({{ comentarios | length }})
@@ -56,7 +66,7 @@
                                 <p class="font-semibold text-slate-800">{{ c.nick }}</p>
                             </div>
 
-                            {# Estrellas SVG del comentario #}
+                            {# Estrellas del comentario #}
                             <div class="flex items-center mb-1 space-x-1">
                                 {% for i in range(0, 5) %}
                                     <span class="icon-[noto--star]"></span>
@@ -72,7 +82,6 @@
                             <p class="mb-2 text-slate-600">{{ c.texto }}</p>
                         </article>
 
-                        {# Botón editar #}
                         <aside>
                             <div class="flex items-center mt-3">
                                 <button type="button"
@@ -82,19 +91,17 @@
                                     Editar comentario
                                 </button>
 
-                                 {# Botón eliminar #}
                                 <form action="/details/{{ c._id }}" method="post">
                                     <input type="hidden" name="_method" value="delete">
                                     <button type="submit"
                                         class="border border-red-300 hover:bg-red-100 text-red-600
-                                            font-medium rounded-lg text-xs ml-2 px-3 py-1.5">
+                                               font-medium rounded-lg text-xs ml-2 px-3 py-1.5">
                                         Eliminar
                                     </button>
                                 </form>
                             </div>
                         </aside>
 
-                        {# Include del modal de edición - c está disponible por estar dentro del for #}
                         {% include "detail_editar.njk" %}
                     </li>
                 {% endfor %}
@@ -104,13 +111,15 @@
         {% endif %}
     </div>
 
-    {# Recomendaciones#}
+    {# Card recomendaciones #}
     {% if recomendaciones | length > 0 %}
         <div class="bg-white rounded-2xl shadow p-6">
-            <h2 class="text-xl font-bold mb-4 text-slate-700"> <span class="icon-[ion--film-marker]"></span> Te puede interesar</h2>
+            <h2 class="text-xl font-bold mb-4 text-slate-700">
+                <span class="icon-[ion--film-marker]"></span> Recomendaciones
+            </h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {% for r in recomendaciones %}
-                    <a href="/details/{{ r.id }}"
+                    <a href="/films/{{ r._id }}"
                         class="block bg-slate-50 hover:bg-slate-100 rounded-xl p-4
                                border border-slate-200 transition">
                         <p class="font-semibold text-slate-800">{{ r.titulo }}</p>

@@ -42,71 +42,77 @@
         </form>
     </section>
     <section class="flex flex-col gap-4" id="listadoPeliculas">
-        {% for film in films %}
-            {% if film.mediaValoracion > 0 %}
-        <section class="flex items-center gap-2 text-gray-300 text-sm">
-            <span class="tag border border-yellow-600 flex flex-row gap-2 p-2">
-                <span class="icon-[noto--star] size-4"></span>
-                <span>{{ film.mediaValoracion }} / 5</span>
-            </span>
-        </section>
-        {% endif %}
-            <section class="film-item flex flex-row items-center justify-between gap-6 p-4">
-                <section class="flex gap-10">
-                    <div class="w-50 h-50 rounded-md">
-                        {% if film.imagen == undefined %}
-                            <div class="flex flex-col border border-white/20 rounded-md h-full justify-center items-center">
-                                <span class="icon-[mdi-light--picture] size-30 text-white/20"></span>
-                            </div>
-                        {% else %}
-                            <img class="object-cover rounded-md h-full" src="{{film.imagen}}">    
-                        {% endif %}
+       {% for film in films %}
+    <section class="film-item flex flex-row items-center justify-between gap-6 p-4">
+        <section class="flex gap-10">
+            <div class="w-80 h-80 rounded-md flex-shrink-0">
+                {% if film.imagen == undefined %}
+                    <div class="flex flex-col border border-white/20 rounded-md h-full justify-center items-center">
+                        <span class="icon-[mdi-light--picture] size-30 text-white/20"></span>
                     </div>
-                    <div class="flex flex-col justify-between py-2">
-                        <section>
-                            <p class="text-lg p-1">{{film.titulo}}</p>
-                            <p class="p-1">{{film.sinopsis}}</p>
-                        </section>
-                        <section class="flex flex-row gap-3 mt-10">
-                            <section class="flex items-center gap-2 text-gray-300 text-sm">
-                                <span class="tag border border-purple-600 flex flex-row gap-2 p-2">
-                                    <span class="icon-[streamline-plump--film-slate-remix] size-4.5"></span>
-                                    <span>{{film.genero}}</span>
-                                </span>
-                            </section>
-                            <section class="flex items-center gap-2 text-gray-300 text-sm">
-                                <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
-                                    <span class="icon-[mdi--calendar] size-4.5"></span>
-                                    <span>{{film.anyo}}</span>
-                                </span>
-                            </section>
-                            <section class="flex items-center gap-2 text-gray-300 text-sm">
-                                <span class="tag border border-green-600 flex flex-row gap-2 p-2">
-                                    <span class="icon-[material-symbols--person] size-5"></span>
-                                    <span>{{film.director}}</span>
-                                </span>
-                            </section>
-                        </section>
-                    </div>
-                </section>
-                
-                <div class="flex flex-row items-center gap-4">
-                    <a href="/films/editar/{{ film._id }}" 
-                        class="flex items-center justify-center p-2 rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer">
-                        <span class="icon-[material-symbols--edit-outline] size-5"></span>
+                {% else %}
+                    <a href="/films/{{ film._id }}">
+                        <img class="object-cover rounded-md h-full" src="{{film.imagen}}">
                     </a>
+                {% endif %}
+            </div>
+            <div class="flex flex-col justify-start gap-2 py-2">
+                <section>
+                    <a href="/films/{{ film._id }}" class="text-lg p-1 hover:underline cursor-pointer">
+                        {{film.titulo}}
+                    </a>
+                    <p class="p-1">{{film.sinopsis}}</p>
+                </section>
 
-                     <form action="/films/{{ film._id }}" method="post" class="inline m-0 p-0">
-                        <input type="hidden" name="_method" value="delete" />
-                        <button type="submit" 
-                            class="flex items-center justify-center p-2 rounded-lg bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white transition-colors cursor-pointer border-0" 
-                            title="Eliminar">
-                            <span class="icon-[material-symbols--delete-outline] size-5"></span>
-                        </button>
-                    </form>
-                </div>
-            </section>
-        {% endfor %}
+                {# Valoración media #}
+                {% if film.mediaValoracion > 0 %}
+                    <section class="flex items-center gap-2 text-gray-300 text-sm mt-1">
+                        <span class="tag border border-yellow-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[noto--star] size-4"></span>
+                            <span>{{ film.mediaValoracion }} / 5</span>
+                        </span>
+                    </section>
+                {% endif %}
+
+                <section class="flex flex-row gap-3 mt-2">
+                    <section class="flex items-center gap-2 text-gray-300 text-sm">
+                        <span class="tag border border-purple-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[streamline-plump--film-slate-remix] size-4.5"></span>
+                            <span>{{film.genero}}</span>
+                        </span>
+                    </section>
+                    <section class="flex items-center gap-2 text-gray-300 text-sm">
+                        <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[mdi--calendar] size-4.5"></span>
+                            <span>{{film.anyo}}</span>
+                        </span>
+                    </section>
+                    <section class="flex items-center gap-2 text-gray-300 text-sm">
+                        <span class="tag border border-green-600 flex flex-row gap-2 p-2">
+                            <span class="icon-[material-symbols--person] size-5"></span>
+                            <span>{{film.director}}</span>
+                        </span>
+                    </section>
+                </section>
+            </div>
+        </section>
+
+        <div class="flex flex-row items-center gap-4">
+            <a href="/films/editar/{{ film._id }}"
+                class="flex items-center justify-center p-2 rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer">
+                <span class="icon-[material-symbols--edit-outline] size-5"></span>
+            </a>
+            <form action="/films/{{ film._id }}" method="post" class="inline m-0 p-0">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="submit"
+                    class="flex items-center justify-center p-2 rounded-lg bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white transition-colors cursor-pointer border-0"
+                    title="Eliminar">
+                    <span class="icon-[material-symbols--delete-outline] size-5"></span>
+                </button>
+            </form>
+        </div>
+    </section>
+{% endfor %}
     </section>
 
 {% endblock %}
