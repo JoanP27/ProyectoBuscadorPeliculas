@@ -21,7 +21,8 @@ router.get('/', async (req, res) => {
     // Los parametros de busqueda
     const params = {...req.query};
 
-    const pagina = params.paginaABuscar - 1 ?? 0
+    const limite = params.max_resultados ? params.max_resultados : 10
+    const pagina = params.paginaABuscar ? params.paginaABuscar - 1 : 0
 
     let filtros = {
         titulo: { $regex: params.titulo ?? '', $options: 'i' },
@@ -37,7 +38,6 @@ router.get('/', async (req, res) => {
 
     console.log(filtros)
 
-    const limite = 10
     const orden = params.orden === 'asc' ? 
             1 :
            -1;
@@ -45,11 +45,14 @@ router.get('/', async (req, res) => {
     try {
         let films = await Film.find(filtros).sort({titulo: orden}).skip(limite * pagina).limit(limite);
 
-        // Saca el total de peliculas
-        const totalPeliculas = await Film.countDocuments(filtros);
+        // Saca el total de peliculas filtradas
+        const totalPeliculasFiltradas = await Film.countDocuments(filtros);
+
+        // Obtiene el total de peliculas de la base de datos
+        const totalPeliculas = await Film.countDocuments();
 
         // Redondeamos hacia arriba el resultado del numero de paginas
-        const totalPaginas = Math.ceil(totalPeliculas / limite)
+        const totalPaginas = Math.ceil(totalPeliculasFiltradas / limite)
 
         // Para cada película calculamos su valoración media
         let filmsConMedia = await Promise.all(films.map(async film => {
@@ -68,8 +71,10 @@ router.get('/', async (req, res) => {
 
         res.render('film_listado', {films: filmsConMedia, params: params,
             page: pagina,
-            totalPages: totalPaginas,
-            limit: limite
+            totalFoundFilms: totalPeliculasFiltradas,
+            limit: limite,
+            totalFilms: totalPeliculas,
+            totalPages: totalPaginas
         });
     } catch(error) {
         res.render('error', { error: "Error listando películas" });

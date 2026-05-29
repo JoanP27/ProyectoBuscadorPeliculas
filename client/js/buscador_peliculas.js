@@ -11,6 +11,9 @@ const paginaABuscar = document.getElementById('paginaABuscar');
 const listado = Array.from(listadoElemento.children)
 const botonesPagina = document.getElementsByClassName('boton-pagina');
 
+const botonPaginaSiguiente = document.getElementsByClassName('boton-pagina-siguiente')[0];
+const botonPaginaAnterior = document.getElementsByClassName('boton-pagina-anterior')[0];
+
 
 Array.from(botonesPagina).forEach((boton => {
     boton.addEventListener('click', () => {
@@ -20,7 +23,17 @@ Array.from(botonesPagina).forEach((boton => {
     })
 }))
 
+botonPaginaSiguiente.addEventListener('click', () => {
+    const paginaActual = Number.parseInt(paginaABuscar.value)
+    paginaABuscar.value = paginaActual + 1
+    formulario.submit()
+})
 
+botonPaginaAnterior.addEventListener('click', () => {
+    const paginaActual = Number.parseInt(paginaABuscar.value)
+    paginaABuscar.value = paginaActual - 1
+    formulario.submit()
+})
 
 const filtrar = () => {
     var listaFiltrada = listado.filter(l => {
