@@ -9,55 +9,82 @@
 {% endblock %}
 
 {% block contenido %}
+
+{# Seccion de formulario de busqueda #}
 <section class="bg-white/10 rounded-md p-4">
+
+    {# Formulario de busqueda #}
     <form class="flex gap-2" action="/films" method="get" id="formulario-buscador">
+
+        {# Indica la cantidad actual, sirve para enviarle al backend la pagina a mostrar #}
         <input type="hidden" id="paginaABuscar" name="paginaABuscar" value="{{page + 1}}">
+
+        {# Campo de titulo #}
         <section class="text-input p-0 m-0 flex items-center">
             <label for="titulo" class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></label>
             <input value="{{params.titulo}}" placeholder="Titulo" class="p-2 w-60 rounded-md outline-0" type="text" name="titulo" id="titulo">
         </section>
+
+        {# Campo de año de publicacion #}
         <section class="text-input p-0 m-0 flex items-center">
-            <label for="titulo" class="icon-[mdi--calendar] size-5 ml-3 bg-gray-400"></label>
+            <label for="anyo" class="icon-[mdi--calendar] size-5 ml-3 bg-gray-400"></label>
             <input value='{{params.anyo}}' placeholder="Año" class="p-2 w-30 rounded-md outline-0" min=0 type="number" name="anyo" id="anyo">
         </section>
+
+        {# Campo de director #}
         <section class="text-input p-0 m-0 flex items-center">
             <label for="director" class="icon-[material-symbols--person] size-5 ml-2 bg-gray-400"></label>
             <input value='{{params.director}}' placeholder="Director" class="p-2 w-30 rounded-md outline-0" type="text" name="director" id="director">
         </section>
+
+        {# Campo de orden #}
         <section class="text-input p-0 m-0 flex items-center">
-            <label for="director" class="icon-[mdi--sort-alphabetical-ascending] size-5 ml-2 bg-gray-400"></label>
+            <label for="orden" class="icon-[mdi--sort-alphabetical-ascending] size-5 ml-2 bg-gray-400"></label>
             <select class="p-2 w-35 rounded-md outline-0 text-gray-400"  type="text" name="orden" id="orden">
                 <option {{"selected" if params.orden == "asc"}} value="asc" class="bg-gray-800">Ascendente</option>
                 <option {{"selected" if params.orden == "desc"}} value="desc" class="bg-gray-800">Descendente</option>
             </select>
         </section>
+
+        {# Campo de cantidad de resultados por pagina #}
         <section class="text-input p-0 m-0 flex items-center">
             <label for="max-resultados" class="icon-[mdi--format-list-numbered] size-5 ml-2 bg-gray-400"></label>
             <!-- si el valor de limite devuelto del servidor es 10, no se mostrara el valor ya que es el que la base de datos tiene por defecto -->
             <input value='{{limit if limit != 10}}' min="5" max="20" placeholder="Ver 10..." class="p-2 w-30 rounded-md outline-0" type="number" name="max_resultados" id="max-resultados">
         </section>
+
+        {# Boton de buscar #}
         <button type="submit" class="button bg-blue-800/60 text-blue-300 hover:text-white hover:bg-blue-600/70 cursor-pointer">
             <span class="icon-[material-symbols--search] size-5"></span>
             <span>Buscar</span>
         </button>
+
+        {# Boton de limpiar el formulario de busqueda #}
         <button type="reset" class="button bg-red-800/60 text-red-300 hover:text-white hover:bg-red-600/70 cursor-pointer">
             <span class="icon-[pajamas--remove] size-4"></span>
             <span>Limpiar</span>
         </button>
     </form>
 </section>
-<!-- lista de paginas -->
+
+{# Seccion con los componentes de la paginacion #}
 <section class="flex flex-row justify-between items-center py-4">
+
+    {# Lista con todas las paginas generadas con los resultados de busqueda #}
     <section class="flex flex-row gap-2">
+
+        {# Boton de pagina anterior, si no hay mas paginas antes de esta se muestra desabilitado #}
         {% if page <= 0 or totalPages <= 0 %}
-            <button class="p-2 flex justify-center items-center bg-white/10 text-gray-500 rounded-md">
+            <button class="p-2 flex justify-center items-center bg-white/10 text-gray-500 rounded-md rounded-bl-xl rounded-tl-xl">
                 <span class="icon-[material-symbols--arrow-back]"></span>
             </button>
         {% else %}
-            <button class="boton-pagina-anterior p-2 flex justify-center items-center bg-blue-400/40 text-blue-200 rounded-md">
+            <button class="boton-pagina-anterior p-2 flex justify-center items-center bg-blue-400/40  text-blue-200 rounded-md rounded-bl-xl rounded-tl-xl">
                 <span class="icon-[material-symbols--arrow-back]"></span>
             </button>
         {% endif %}
+
+        {# Botones de paginas, el boton con el numero de pagina actual destaca de los demas #}
         {% for p in range(1, totalPages+1) %}
             <div>
                 {% if (page+1) == p %}
@@ -67,95 +94,37 @@
                 {% endif %}
             </div>
         {% endfor %}
+
+        {# Boton de pagina anterior, si no hay mas paginas despues de esta se muestra desabilitado #}
         {% if page >= totalPages - 1 or totalPages <= 0 %}
-            <button class="p-2 flex justify-center items-center bg-white/10 text-gray-500 rounded-md">
+            <button class="p-2 flex justify-center items-center bg-white/10 text-gray-500 rounded-md rounded-br-xl rounded-tr-xl">
                 <span class="icon-[material-symbols--arrow-forward]"></span>
             </button>
         {% else %}
-            <button class="boton-pagina-siguiente p-2 flex justify-center items-center bg-blue-400/40 text-blue-200 rounded-md">
+            <button class="boton-pagina-siguiente p-2 flex justify-center items-center bg-blue-400/40 text-blue-200 rounded-md rounded-br-xl rounded-tr-xl">
                 <span class="icon-[material-symbols--arrow-forward]"></span>
             </button>
         {% endif %}
+
     </section>
+
+    {# Etiqueta que muestra la cantidad de resultados encontrados en la busqueda, si son 0 toma un color rojo oscuro #}
     <span class="py-2 px-4 text-sm 
-        {{"bg-blue-400/30 text-white/60" 
+        {{
+            "bg-blue-400/30 text-white/60" 
             if totalFoundFilms > 0 
-            else "bg-red-400/30 text-white/60"}}
-            rounded-3xl">{{totalFoundFilms}} de {{totalFilms}} resultados
+            else 
+            "bg-red-400/30 text-white/60"
+        }}
+        rounded-3xl">{{totalFoundFilms}} de {{totalFilms}} resultados
     </span>
 
 </section>
-</section>
+
+{# Listado de peliculas #}
 <section class="flex flex-col gap-4" id="listadoPeliculas">
     {% for film in films %}
-    <section class="film-item flex flex-row items-center justify-between gap-6 p-4">
-        <section class="flex gap-10">
-            <div class="w-80 h-80 rounded-md shrink-0">
-                {% if film.imagen == undefined or film.imagen == "" %}
-                    <div class="flex flex-col border border-white/20 rounded-md h-full justify-center items-center">
-                        <span class="icon-[mdi-light--picture] size-30 text-white/20"></span>
-                    </div>
-                {% else %}
-                    <a href="/films/{{ film._id }}">
-                        <img class="object-cover rounded-md h-full" src="{{film.imagen}}">
-                    </a>
-                {% endif %}
-            </div>
-            <div class="flex flex-col justify-between gap-2 py-2">
-                <section>
-                    <a href="/films/{{ film._id }}" class="titulo text-lg p-1 hover:underline cursor-pointer">
-                        {{film.titulo}}
-                    </a>
-                    <p class="p-1">{{film.sinopsis}}</p>
-                </section>
-
-                {# Valoración media #}
-                {% if film.mediaValoracion > 0 %}
-                    <section class="flex items-center gap-2 text-gray-300 text-sm mt-1">
-                        <span class="tag border border-yellow-600 flex flex-row gap-2 p-2">
-                            <span class="icon-[noto--star] size-4"></span>
-                            <span>{{ film.mediaValoracion }} / 5</span>
-                        </span>
-                    </section>
-                {% endif %}
-
-                <section class="flex flex-row gap-3 mt-2">
-                    <section class="flex items-center gap-2 text-gray-300 text-sm">
-                        <span class="tag border border-purple-600 flex flex-row gap-2 p-2">
-                            <span class="icon-[streamline-plump--film-slate-remix] size-4.5"></span>
-                            <span>{{film.genero}}</span>
-                        </span>
-                    </section>
-                    <section class="flex items-center gap-2 text-gray-300 text-sm">
-                        <span class="tag border border-blue-600 flex flex-row gap-2 p-2">
-                            <span class="icon-[mdi--calendar] size-4.5"></span>
-                            <span class="anyo">{{film.anyo}}</span>
-                        </span>
-                    </section>
-                    <section class="flex items-center gap-2 text-gray-300 text-sm">
-                        <span class="tag border border-green-600 flex flex-row gap-2 p-2">
-                            <span class="icon-[material-symbols--person] size-5"></span>
-                            <span class="director">{{film.director}}</span>
-                        </span>
-                    </section>
-                </section>
-            </div>
-        </section>
-        <div class="flex flex-row items-center gap-4">
-            <a href="/films/editar/{{ film._id }}"
-                class="flex items-center justify-center p-2 rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer">
-                <span class="icon-[material-symbols--edit-outline] size-5"></span>
-            </a>
-            <form action="/films/{{ film._id }}" method="post" class="inline m-0 p-0">
-                <input type="hidden" name="_method" value="delete" />
-                <button type="submit"
-                    class="flex items-center justify-center p-2 rounded-lg bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white transition-colors cursor-pointer border-0"
-                    title="Eliminar">
-                    <span class="icon-[material-symbols--delete-outline] size-5"></span>
-                </button>
-            </form>
-        </div>
-    </section>
+        {% include "components/film_resultado_busqueda.njk" %}
     {% endfor %}
 </section>
 

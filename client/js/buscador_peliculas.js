@@ -23,17 +23,21 @@ Array.from(botonesPagina).forEach((boton => {
     })
 }))
 
-botonPaginaSiguiente.addEventListener('click', () => {
-    const paginaActual = Number.parseInt(paginaABuscar.value)
-    paginaABuscar.value = paginaActual + 1
-    formulario.submit()
-})
+if(botonPaginaSiguiente) {
+    botonPaginaSiguiente.addEventListener('click', () => {
+        const paginaActual = Number.parseInt(paginaABuscar.value)
+        paginaABuscar.value = paginaActual + 1
+        formulario.submit()
+    });
+}
 
-botonPaginaAnterior.addEventListener('click', () => {
-    const paginaActual = Number.parseInt(paginaABuscar.value)
-    paginaABuscar.value = paginaActual - 1
-    formulario.submit()
-})
+if(botonPaginaAnterior) {
+    botonPaginaAnterior.addEventListener('click', () => {
+        const paginaActual = Number.parseInt(paginaABuscar.value)
+        paginaABuscar.value = paginaActual - 1
+        formulario.submit()
+    });
+}
 
 const filtrar = () => {
     var listaFiltrada = listado.filter(l => {
