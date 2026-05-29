@@ -21,6 +21,8 @@ router.get('/', async (req, res) => {
     // Los parametros de busqueda
     const params = {...req.query};
 
+    const pagina = params.paginaABuscar - 1 ?? 0
+
     let filtros = {
         titulo: { $regex: params.titulo ?? '', $options: 'i' },
         director:  { $regex: params.director ?? '', $options: 'i' }
@@ -36,7 +38,6 @@ router.get('/', async (req, res) => {
     console.log(filtros)
 
     const limite = 10
-    const pagina = 0
     const orden = params.orden === 'asc' ? 
             1 :
            -1;
@@ -62,6 +63,8 @@ router.get('/', async (req, res) => {
             obj.mediaValoracion = mediaValoracion;
             return obj;
         }));
+
+        console.log(pagina)
 
         res.render('film_listado', {films: filmsConMedia, params: params,
             page: pagina,
