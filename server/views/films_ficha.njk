@@ -7,7 +7,7 @@
 <div class="max-w-3xl mx-auto mx-auto sm:mt-8 space-y-4 sm:space-y-8  px-2 sm:px-4">
 
     {# Card principal #}
-    <div class="bg-white rounded-2xl shadow p-3 sm:p-6">
+    <div class="bg-white/10 rounded-2xl shadow p-3 sm:p-6">
         <div class=" flex flex-col sm:flex-row gap-6">
 
             {# Imagen a la izquierda #}
@@ -16,11 +16,11 @@
 
             {# Datos a la derecha #}
             <div class="flex flex-col flex-1">
-                <h1 class="text-2xl sm:text-3xl font-bold mb-4 text-slate-800">{{ film.titulo }}</h1>
-                <p class="mt-2 text-slate-600"><strong>Director:</strong> {{ film.director }}</p>
-                <p class="mt-2 text-slate-600"><strong>Año:</strong> {{ film.anyo }}</p>
-                <p class="mt-2 text-slate-600"><strong>Género:</strong> {{ film.genero }}</p>
-                <p class="mt-2 text-slate-600">{{ film.sinopsis }}</p>
+                <h1 class="text-2xl sm:text-3xl font-bold mb-4 text-slate-300">{{ film.titulo }}</h1>
+                <p class="mt-2 text-slate-300"><strong>Director:</strong> {{ film.director }}</p>
+                <p class="mt-2 text-slate-300"><strong>Año:</strong> {{ film.anyo }}</p>
+                <p class="mt-2 text-slate-300"><strong>Género:</strong> {{ film.genero }}</p>
+                <p class="mt-2 text-slate-300">{{ film.sinopsis }}</p>
 
                 {# Valoración media #}
                 <div class="flex items-center mt-3">
@@ -52,8 +52,8 @@
     </div>         
 
     {# Card comentarios #}
-    <div class="bg-white rounded-2xl shadow p-6">
-        <h2 class="text-xl font-bold mb-4 text-slate-700">
+    <div class="bg-white/10 rounded-2xl shadow p-6">
+        <h2 class="text-xl font-bold mb-4 text-slate-300">
             Comentarios ({{ comentarios | length }})
         </h2>
 
@@ -63,7 +63,7 @@
                     <li class="border-b border-slate-100 pb-6">
                         <article>
                             <div class="flex items-center mb-2">
-                                <p class="font-semibold text-slate-800">{{ c.nick }}</p>
+                                <p class="font-semibold text-slate-300">{{ c.nick }}</p>
                             </div>
 
                             {# Estrellas del comentario #}
@@ -78,19 +78,19 @@
                             </div>
 
                             <footer class="mb-2 mt-1">
-                                <time class="block text-sm text-slate-400">
+                                <time class="block text-sm text-slate-300">
                                     Publicado el {{ c.fechaFormateada }}
                                 </time>
                             </footer>
 
-                            <p class="mb-2 text-slate-600">{{ c.texto }}</p>
+                            <p class="mb-2 text-slate-300">{{ c.texto }}</p>
                         </article>
 
                         <aside>
                             <div class="flex items-center mt-3">
                                 <button type="button"
                                     onclick="document.getElementById('modalEditar-{{ c._id }}').showModal()"
-                                    class="border border-slate-300 hover:bg-slate-100 text-slate-700
+                                    class="border border-slate-300 hover:bg-slate-100 text-slate-300
                                            font-medium rounded-lg text-xs px-3 py-1.5">
                                     Editar comentario
                                 </button>
@@ -117,18 +117,18 @@
 
     {# Card recomendaciones #}
     {% if recomendaciones | length > 0 %}
-        <div class="bg-white rounded-2xl shadow p-6">
-            <h2 class="text-xl font-bold mb-4 text-slate-700">
+        <div class="bg-white/10 rounded-2xl shadow p-6">
+            <h2 class="text-xl font-bold mb-4 text-slate-300">
                 <span class="icon-[ion--film-marker]"></span> Recomendaciones
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {% for r in recomendaciones %}
                     <a href="/films/{{ r._id }}"
-                        class="block bg-slate-50 hover:bg-slate-100 rounded-xl p-4
+                        class="block bg-white/10 hover:bg-slate-300 rounded-xl p-4
                                border border-slate-200 transition">
-                        <p class="font-semibold text-slate-800">{{ r.titulo }}</p>
-                        <p class="text-sm text-slate-500">{{ r.director }} · {{ r.anyo }}</p>
-                        <p class="text-xs text-slate-400 mt-1">{{ r.genero }}</p>
+                        <p class="font-semibold text-slate-300">{{ r.titulo }}</p>
+                        <p class="text-sm text-slate-300">{{ r.director }} · {{ r.anyo }}</p>
+                        <p class="text-xs text-slate-300 mt-1">{{ r.genero }}</p>
                     </a>
                 {% endfor %}
             </div>
