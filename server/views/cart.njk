@@ -5,13 +5,13 @@
 {% block contenido %}
 
 <div class="max-w-2xl mx-auto mt-8 px-4">
-    <h1 class="text-2xl sm:text-3xl font-bold mb-6 text-slate-800">Tu carrito</h1>
+    <h1 class="text-2xl sm:text-3xl font-bold mb-6 text-slate-200">Tu carrito</h1>
 
     {% if cart | length > 0 %}
         <ul class="space-y-4">
             {% for pelicula in cart %}
                 <li class="flex flex-col sm:flex-row gap-4 items-start sm:items-center
-                            bg-white rounded-xl shadow p-4">
+                            bg-white/10 rounded-xl shadow p-4">
 
                     {# Imagen #}
                     <img src="{{ pelicula.imagen }}" alt="{{ pelicula.titulo }}"
@@ -20,10 +20,10 @@
                     {# Datos #}
                     <div class="flex-1">
                         <a href="/films/{{ pelicula.id }}"
-                            class="font-semibold hover:underline text-slate-800">
+                            class="font-semibold hover:underline text-slate-300">
                             {{ pelicula.titulo }}
                         </a>
-                        <p class="text-sm text-slate-500">
+                        <p class="text-sm text-slate-300">
                             {{ pelicula.director }} · {{ pelicula.anyo }} · {{ pelicula.genero }}
                         </p>
                     </div>
@@ -42,12 +42,12 @@
             {% endfor %}
         </ul>
 
-        <p class="mt-6 text-slate-500 text-sm">
+        <p class="mt-6 text-slate-300 text-sm">
             Total: <strong>{{ cart | length }} película(s)</strong> en tu carrito
         </p>
 
     {% else %}
-        <div class="bg-white rounded-2xl shadow p-8 text-center text-slate-400">
+        <div class="bg-white/10 rounded-2xl shadow p-8 text-center text-slate-300">
             <p class="text-lg">Tu carrito está vacío.</p>
             <a href="/films"
                 class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded-xl">
