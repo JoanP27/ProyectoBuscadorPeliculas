@@ -21,11 +21,19 @@ router.get('/', async (req, res) => {
     // Los parametros de busqueda
     const params = {...req.query};
 
+    // Obtiene la cantidad de resultados por pagina, si no es un numero valido cargara 10 por defecto
+    const limite = params.max_resultados ? params.max_resultados : 10
+
+    // Obtiene la pagina a mostrar si esta es un numero valido y es mayor a 0, sino se muestra la primera pagina 
+    const pagina = params.paginaABuscar && params.paginaABuscar > 0 ? params.paginaABuscar - 1 : 0
+
+    // Prepara los filtros de titulo y director
     let filtros = {
         titulo: { $regex: params.titulo ?? '', $options: 'i' },
         director:  { $regex: params.director ?? '', $options: 'i' }
     }
 
+    // Prepara los filtros de año si estos son un numero valido
     if(params.anyo && params.anyo != '') {
         filtros = {
             ...filtros, 
@@ -35,11 +43,23 @@ router.get('/', async (req, res) => {
 
     console.log(filtros)
 
+    // Obtiene el orden a aplicar en la lista
+    const orden = params.orden === 'asc' ? 
+            1 :
+           -1;
+
     try {
-         let films = await Film.find(filtros);
-         films = films.toSorted((f1, f2) => params.orden === 'asc' ? 
-            f1.titulo.localeCompare(f2.titulo) :
-            f2.titulo.localeCompare(f1.titulo));
+        // Obtiene la lista de peliculas ordenadas segun la pagina seleccionada y el numero de resultados por pagina, que se obtienen en los parametros de la peticion
+        let films = await Film.find(filtros).sort({titulo: orden}).skip(limite * pagina).limit(limite);
+
+        // Saca el total de peliculas filtradas
+        const totalPeliculasFiltradas = await Film.countDocuments(filtros);
+
+        // Obtiene el total de peliculas de la base de datos
+        const totalPeliculas = await Film.countDocuments();
+
+        // Redondeamos hacia arriba el resultado del numero de paginas
+        const totalPaginas = Math.ceil(totalPeliculasFiltradas / limite)
 
         // Para cada película calculamos su valoración media
         let filmsConMedia = await Promise.all(films.map(async film => {
@@ -54,7 +74,15 @@ router.get('/', async (req, res) => {
             return obj;
         }));
 
-        res.render('film_listado', {films: filmsConMedia, params: params});
+        console.log(pagina)
+
+        res.render('film_listado', {films: filmsConMedia, params: params,
+            page: pagina,
+            totalFoundFilms: totalPeliculasFiltradas,
+            limit: limite,
+            totalFilms: totalPeliculas,
+            totalPages: totalPaginas
+        });
     } catch(error) {
         res.render('error', { error: "Error listando películas" });
     }
@@ -178,6 +206,7 @@ router.put('/:id', (req, res) => {
             anyo: req.body.anyo,
             sinopsis: req.body.sinopsis,
             genero: req.body.genero,
+            imagen: req.body.imagen
         }
     }, {new: true}).then(resultado => {
         res.redirect(req.baseUrl);
