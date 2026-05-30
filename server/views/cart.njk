@@ -4,49 +4,53 @@
 
 {% block contenido %}
 
-<div class="max-w-2xl mx-auto mt-8">
-    <h1 class="text-3xl font-bold mb-6 text-slate-300">Tu carrito</h1>
+<div class="max-w-2xl mx-auto mt-8 px-4">
+    <h1 class="text-2xl sm:text-3xl font-bold mb-6 text-slate-800">Tu carrito</h1>
 
     {% if cart | length > 0 %}
         <ul class="space-y-4">
-           {% for pelicula in cart %}
-    <li class="flex gap-4 items-center bg-white rounded-xl shadow p-4">
+            {% for pelicula in cart %}
+                <li class="flex flex-col sm:flex-row gap-4 items-start sm:items-center
+                            bg-white rounded-xl shadow p-4">
 
-        {# Imagen #}
-        <img src="{{ pelicula.imagen }}" alt="{{ pelicula.titulo }}"
-            class="w-16 h-24 object-cover rounded-lg flex-shrink-0">
+                    {# Imagen #}
+                    <img src="{{ pelicula.imagen }}" alt="{{ pelicula.titulo }}"
+                        class="w-full sm:w-16 h-48 sm:h-24 object-cover rounded-lg flex-shrink-0">
 
-        {# Datos #}
-        <div class="flex-1">
-            <a href="/films/{{ pelicula.id }}"
-                class="font-semibold hover:underline text-slate-800">
-                {{ pelicula.titulo }}
-            </a>
-            <p class="text-sm text-slate-500">
-                {{ pelicula.director }} · {{ pelicula.anyo }} · {{ pelicula.genero }}
-            </p>
-        </div>
+                    {# Datos #}
+                    <div class="flex-1">
+                        <a href="/films/{{ pelicula.id }}"
+                            class="font-semibold hover:underline text-slate-800">
+                            {{ pelicula.titulo }}
+                        </a>
+                        <p class="text-sm text-slate-500">
+                            {{ pelicula.director }} · {{ pelicula.anyo }} · {{ pelicula.genero }}
+                        </p>
+                    </div>
 
-        {# Botón eliminar #}
-        <form action="/cart/{{ pelicula.id }}" method="post">
-            <input type="hidden" name="_method" value="delete">
-            <button type="submit"
-                class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm">
-                Eliminar
-            </button>
-        </form>
+                    {# Botón eliminar #}
+                    <form action="/cart/{{ pelicula.id }}" method="post" class="w-full sm:w-auto">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit"
+                            class="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white
+                                   font-semibold py-1 px-3 rounded-lg text-sm">
+                            Eliminar
+                        </button>
+                    </form>
 
-    </li>
-{% endfor %} 
+                </li>
+            {% endfor %}
         </ul>
-        <p>
+
+        <p class="mt-6 text-slate-500 text-sm">
             Total: <strong>{{ cart | length }} película(s)</strong> en tu carrito
         </p>
 
     {% else %}
-        <div>
+        <div class="bg-white rounded-2xl shadow p-8 text-center text-slate-400">
             <p class="text-lg">Tu carrito está vacío.</p>
-            <a href="/films">
+            <a href="/films"
+                class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded-xl">
                 Ver películas
             </a>
         </div>
