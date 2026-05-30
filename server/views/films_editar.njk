@@ -10,18 +10,26 @@
 
 {% block contenido %}
 
-    <section class="flex flex-col p-4 items-center">
+    {# Contenedor para centrar el formulario en la pantalla #}
+    <section class="flex flex-col p-4 items-center flex-wrap mb-15">
+
+        {# Formulario de actualizar una pelicula #}
         <section>
+
+            {# Cabecera del formulario #}
             <h1 class="mt-7 mb-5 text-2xl font-bold text-white ">Edición de pelicula</h1>
-            <form class="flex flex-row gap-10 bg-white/10 rounded-md p-4" action="/films/{{ film.id }}" method="post">
-                <!-- Seccion de la imagen -->
-                <section class="w-110 overflow-hidden border border-white/20 rounded-md has-user-invalid:border-red-600">
+
+            {# Cuerpo del formulario #}
+            <form class="flex flex-wrap gap-10 bg-white/10 rounded-md p-4" action="/films/{{ film.id }}" method="post">
+
+                {# Imagen de la pelicula, se abre un pop up al hacer click en la imagen, si pesa mas de 200 KB muestra un error de validacion #}
+                <section class="w-full md:w-110 overflow-hidden border border-white/20 rounded-md has-user-invalid:border-red-600">
                     <label for="imagen">
-                        <div id="icono_imagen" class="flex flex-col size-full justify-center items-center">
+                        <div id="icono_imagen" class="flex flex-col flex-wrap size-full justify-center items-center">
                             <span class="icon-[mdi-light--picture] size-60 text-white/20"></span>
                             <span class="text-white/50">Pulsa aqui para subir una imagen</span>
                         </div>
-                        <div class="size-full flex flex-col"> 
+                        <div class="size-full flex flex-wrap flex-col"> 
                             <img id="resultado_imagen" src="" class="object-cover flex-1 hidden">
                             <div class="text-red-600 p-2 hidden" id="imagen_error"></div>
                         </div>
@@ -29,21 +37,26 @@
                     <input type="file" class="hidden" id="imagen" accept="image/*">
                     <input type="hidden" id="imagen_enviar" accept="image/*" name="imagen">
                 </section>
-                <section class="flex flex-col gap-4 w-200">
+
+                {# Datos de la pelicula #}
+                <section class="flex flex-col flex-wrap gap-5 w-full md:w-auto">
                     <input type="hidden" name="_method" value="put">
                 
+                    {# Titulo de la pelicula #}
                     <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
                         <span class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></span>
                         <label for="titulo" class="ml-2 text-white font-medium">Titulo:</label>
                         <input class="p-2 w-full bg-transparent outline-0 text-white" type="text" name="titulo" id="titulo" placeholder="Titulo de la pelicula..." value="{{ film.titulo }}">
                     </div>
 
+                    {# Sinopsis de la pelicula #}
                     <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
                         <span class="icon-[material-symbols--person] size-5 ml-2 bg-gray-400"></span>
                         <label for="director" class="ml-2 text-white font-medium">Director:</label>
                         <input class="p-2 w-full bg-transparent outline-0 text-white placeholder-gray-500" type="text" name="director" id="director" placeholder="Director de la pelicula..." value="{{ film.director }}">
                     </div>
 
+                    {# Etiquetas de año de creacion, genero y director #}
                     <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
                         <span class="icon-[mdi--calendar] size-5 ml-3 bg-gray-400"></span>
                         <label for="anyo" class="ml-2 text-white font-medium">Año:</label>
@@ -63,7 +76,7 @@
                     </div>
                 <section>
 
-
+                {# Botones de guardar la pelicula #}
                 <button type="submit" class="button bg-blue-800 cursor-pointer">
                     <span class="icon-[material-symbols--edit] size-5 rotate-90"></span>
                     <span>Enviar</span>
