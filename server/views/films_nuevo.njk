@@ -19,6 +19,14 @@
 
             {# Cabecera del formulario #}
             <h1 class="text-2xl mt-7 mb-5">Registrar una nueva pelicula</h1>
+
+            {# Mensaje de Error #}
+            {% if mensajeError and mensajeError.length > 0 %}
+                <div class="flex p-4 mb-4 items-center gap-3 bg-red-600/20 border border-red-500 text-red-400 rounded-md">
+                    <span class="icon-[material-symbols--error-outline] size-5 bg-red-400"></span>
+                    <p class="font-medium">{{ mensajeError[0] | safe }}</p>
+                </div>
+            {% endif %}
             
             {# Cuerpo del formulario #}
             <form action="/films" method="post" class="flex flex-wrap justify-center gap-10  bg-white/10 rounded-md p-5">
@@ -47,14 +55,14 @@
                     <div class="p-0 m-0 flex flex-col flex-wrap gap-1">
                         <label for="titulo" class="text-gray-400">Titulo</label>
                         <input placeholder="Titulo" id="titulo" name="titulo" 
-                            class="text-input p-2 outline-0 border-2 border-white/0 user-invalid:border-red-600/70" required>
+                            class="text-input p-2 outline-0 border-2 border-white/0 user-invalid:border-red-600/70" required value="{{ film.titulo }}">
                     </div>
 
                     {# Sinopsis de la pelicula #}
                     <div class="p-0 m-0 flex flex-col flex-wrap gap-1">
                         <label for="sinopsis" class="text-gray-400">Sinopsis</label>
                         <textarea max-length="500" rows="5" placeholder="Sinopsis" id="sinopsis" name="sinopsis"
-                            class="text-input p-2 outline-0 resize-none border-2 border-white/0 user-invalid:border-red-600 required"></textarea>
+                            class="text-input p-2 outline-0 resize-none border-2 border-white/0 user-invalid:border-red-600 required" >{{ film.sinopsis }}</textarea>
                     </div>
 
                     {# Etiquetas de año de creacion, genero y director #}
@@ -62,21 +70,21 @@
                         <span class="tag border border-blue-600 bg-blue-800/20 flex flex-row flex-wrap items-center gap-2 p-2">
                             <span class="icon-[mdi--calendar] size-4.5"></span>
                             <span>
-                                <input min="1800" name="anyo" id="anyo" max="2100" type="number" placeholder="Año" type="text" class="outline-0">
+                                <input min="1800" name="anyo" id="anyo" max="2100" type="number" placeholder="Año" type="text" class="outline-0" value="{{ film.anyo }}">
                             </span>
                         </span>
                         
                         <span class="tag border  border-purple-600  bg-purple-800/20 flex flex-row flex-wrap items-center gap-2 p-2">
                             <span class="icon-[streamline-plump--film-slate-remix] size-4"></span>
                             <span>
-                                <input type="text" minlength="3" name="genero" id="genero"  placeholder="Categoria" type="text" class="outline-0">
+                                <input type="text" minlength="3" name="genero" id="genero"  placeholder="Categoria" type="text" class="outline-0" value="{{ film.genero }}">
                             </span>
                         </span>
                         
                         <span class="tag border border-green-600 flex flex-wrap bg-green-800/20 flex-row items-center gap-2 p-2">
                             <span class="icon-[material-symbols--person] size-5"></span>
                             <span>
-                                <input placeholder="Director" name="director" id="director" type="text" class="outline-0 w-full sm:w-60" minlength="3" maxlength="50">
+                                <input placeholder="Director" name="director" id="director" type="text" class="outline-0 w-full sm:w-60" minlength="3" maxlength="50" value="{{ film.director }}">
                             </span>
                         </span>
                     </div>

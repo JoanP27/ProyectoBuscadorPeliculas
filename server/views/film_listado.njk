@@ -67,6 +67,23 @@
     </form>
 </section>
 
+
+{# Mensaje de Exito #}
+{% if mensajeExito and mensajeExito.length > 0 %}
+    <div class="mt-6 flex p-4 mb-4 items-center gap-3 bg-green-600/20 border border-green-500 text-green-400 rounded-md">
+        <span class="icon-[material-symbols--check-circle-outline] size-5 bg-green-400"></span>
+        <p class="font-medium">{{ mensajeExito[0] }}</p>
+    </div>
+{% endif %}
+
+{# Mensaje de Error #}
+{% if mensajeError and mensajeError.length > 0 %}
+    <div class="mt-6 flex p-4 mb-4 items-center gap-3 bg-red-600/20 border border-red-500 text-red-400 rounded-md ">
+        <span class="icon-[material-symbols--error-outline] size-5 bg-red-400"></span>
+        <p class="font-medium">{{ mensajeError[0] }}</p>
+    </div>
+{% endif %}
+
 {# Seccion con los componentes de la paginacion #}
 <section class="flex flex-row justify-between items-center py-4">
 

@@ -19,6 +19,13 @@
             {# Cabecera del formulario #}
             <h1 class="mt-7 mb-5 text-2xl font-bold text-white ">Edición de pelicula</h1>
 
+            {# Mensaje de Error #}
+            {% if mensajeError and mensajeError.length > 0 %}
+                <div class="flex p-4 mb-4 items-center gap-3 bg-red-600/20 border border-red-500 text-red-400 rounded-md">
+                    <span class="icon-[material-symbols--error-outline] size-5 bg-red-400"></span>
+                    <p class="font-medium">{{ mensajeError[0] | safe }}</p>
+                </div>
+            {% endif %}
             {# Cuerpo del formulario #}
             <form class="flex flex-wrap gap-10 bg-white/10 rounded-md p-4" action="/films/{{ film.id }}" method="post">
 
@@ -46,33 +53,33 @@
                     <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
                         <span class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></span>
                         <label for="titulo" class="ml-2 text-white font-medium">Titulo:</label>
-                        <input class="p-2 w-full bg-transparent outline-0 text-white" type="text" name="titulo" id="titulo" placeholder="Titulo de la pelicula..." value="{{ film.titulo }}">
+                        <input class="p-2 w-full bg-transparent outline-0 text-white" minlength="2" maxlength="255" type="text" name="titulo" id="titulo" placeholder="Titulo de la pelicula..." value="{{ film.titulo }}">
                     </div>
 
-                    {# Sinopsis de la pelicula #}
+                    {# Director de la pelicula #}
                     <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
                         <span class="icon-[material-symbols--person] size-5 ml-2 bg-gray-400"></span>
                         <label for="director" class="ml-2 text-white font-medium">Director:</label>
-                        <input class="p-2 w-full bg-transparent outline-0 text-white placeholder-gray-500" type="text" name="director" id="director" placeholder="Director de la pelicula..." value="{{ film.director }}">
+                        <input class="p-2 w-full bg-transparent outline-0 text-white placeholder-gray-500" minlength="3" maxlength="50" type="text" name="director" id="director" placeholder="Director de la pelicula..." value="{{ film.director }}">
                     </div>
 
                     {# Etiquetas de año de creacion, genero y director #}
                     <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
                         <span class="icon-[mdi--calendar] size-5 ml-3 bg-gray-400"></span>
                         <label for="anyo" class="ml-2 text-white font-medium">Año:</label>
-                        <input class="p-2 w-full bg-transparent outline-0 text-white placeholder-gray-500" min="0" type="number" name="anyo" id="anyo" placeholder="Año de la pelicula..." value="{{ film.anyo }}">
+                        <input class="p-2 w-full bg-transparent outline-0 text-white placeholder-gray-500" min="1800" max="2100" type="number" name="anyo" id="anyo" placeholder="Año de la pelicula..." value="{{ film.anyo }}">
                     </div>
 
                     <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
                         <span class="icon-[pajamas--book] size-4 ml-3 bg-gray-400"></span>
                         <label for="sinopsis" class="ml-2 text-white font-medium">Sinopsis:</label>
-                        <input class="p-2 w-full bg-transparent outline-0 text-white placeholder-gray-500" type="text" name="sinopsis" id="sinopsis" placeholder="Sinopsis de la pelicula..." value="{{ film.sinopsis }}">
+                        <input class="p-2 w-full bg-transparent outline-0 text-white placeholder-gray-500" minlength="3" maxlength="500" type="text" name="sinopsis" id="sinopsis" placeholder="Sinopsis de la pelicula..." value="{{ film.sinopsis }}">
                     </div>
 
                     <div class="text-input p-0 flex items-center bg-white/5 rounded-md border border-gray-600">
                         <span class="icon-[streamline-plump--film-slate-remix] size-4 ml-3 bg-gray-400"></span>
                         <label for="genero" class="ml-2 text-white font-medium">Genero:</label>
-                        <input class="p-2 w-full bg-transparent outline-0 text-white placeholder-gray-500" type="text" name="genero" id="genero" placeholder="Genero de la pelicula..." value="{{ film.genero }}">
+                        <input class="p-2 w-full bg-transparent outline-0 text-white placeholder-gray-500" minlength="3" type="text" name="genero" id="genero" placeholder="Genero de la pelicula..." value="{{ film.genero }}">
                     </div>
                 <section>
 

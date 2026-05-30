@@ -90,19 +90,32 @@ router.get('/', async (req, res) => {
 
 // Formulario de alta de pelicula
 router.get('/nuevo', (req, res) => {
-    res.render('films_nuevo');
+  // Recogemos los datos de la session si lo hay
+    const filmDatos = req.session.formDatos || {};
+    req.session.formDatos = null;
+
+    res.render('films_nuevo', { 
+        film: filmDatos 
+    });
 });
 
-//routa editar
+//ruta editar
 router.get('/editar/:id', (req, res) => {
+    const filmDatos = req.session.formDatos || {};
+    req.session.formDatos = null;
+
     Film.findById(req.params['id']).then(resultado => {
         if (resultado) {
             res.render('films_editar', {film: resultado});
         } else {
-            res.render('error', {error: "Pelicula no encontrada"});
+            req.flash('exito', 'Pelicula no encontrada');
+            res.redirect(req.baseUrl);
+            // res.render('error', {error: "Pelicula no encontrada"});
         }
     }).catch(error => {
-        res.render('error', {error: "Pelicula no encontrado"});
+        req.flash('exito', 'Pelicula no encontrada');
+        res.redirect(req.baseUrl)  
+        // res.render('error', {error: "Pelicula no encontrado"});
     });
 });
 
@@ -174,6 +187,7 @@ router.post('/', async (req, res) => {
     console.log(nuevaFilm)
 
     nuevaFilm.save().then(resultado => {
+        req.flash('exito', '¡La película se ha añadido correctamente!');
         res.redirect(req.baseUrl);
     }).catch(error => {
         let errores = Object.keys(error.errors);
@@ -189,7 +203,10 @@ router.post('/', async (req, res) => {
             mensaje = 'Error añadiendo pelicula';
         }
         console.log();
-        res.render('error', {error: mensaje});
+        req.flash('error', 'Error: ' + mensaje);
+        req.session.formDatos = req.body;
+        res.redirect(`${req.baseUrl}/nuevo`);
+        // res.render('error', {error: mensaje});
     });
 });
 
@@ -208,10 +225,14 @@ router.put('/:id', (req, res) => {
             genero: req.body.genero,
             imagen: req.body.imagen
         }
-    }, {new: true}).then(resultado => {
+    }, { new: true }).then(resultado => {
+        req.flash('exito', '¡La película se ha modificado correctamente!');
         res.redirect(req.baseUrl);
     }).catch(error => {
-        res.render('error', {error: "Error modificando pelicula"});
+        req.flash('error', 'Error: ' + error);
+        req.session.formDatos = req.body;
+        res.redirect(`${req.baseUrl}/editar/${req.params.id}`);
+        // res.render('error', {error: "Error modificando pelicula"});
     });
 });
 
@@ -221,8 +242,10 @@ router.put('/:id', (req, res) => {
 // Ruta para borrar peliculas
 router.delete('/:id', (req, res) => {
     Film.findByIdAndDelete(req.params.id).then(resultado => {
+        req.flash('exito', '¡La película se ha eliminado correctamente!');
         res.redirect(req.baseUrl);
     }).catch(error => {
+        req.flash('error', 'Hubo un error al intentar eliminar la película.');
         res.render('error', {error: "Error borrando pelicula"});
     });
 });

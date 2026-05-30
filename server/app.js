@@ -5,6 +5,7 @@ import nunjucks from 'nunjucks'
 import dotenv from 'dotenv'
 import methodOverride from 'method-override'
 import session from 'express-session'
+import flash from 'connect-flash'
 
 
 import connectMongo from './config/mongoose.js'
@@ -32,6 +33,7 @@ app.use(session({
     saveUninitialized: false
 }));
 
+app.use(flash('connect-flash')) //Mensajes Flash
 
 app.use('/build', express.static(path.resolve(process.cwd(), 'public/build')))
 app.use(express.static(path.resolve(process.cwd(), 'public')))
@@ -58,7 +60,9 @@ app.locals.viteAsset = viteAsset
 app.locals.viteCssFiles = viteCssFiles
 
 app.use((req, res, next) => {
-    res.locals.session = req.session;
+  res.locals.session = req.session;
+    res.locals.mensajeExito = req.flash('exito');
+    res.locals.mensajeError = req.flash('error');
     next();
 });
 
