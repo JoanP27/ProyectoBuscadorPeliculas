@@ -9,7 +9,6 @@ import flash from 'connect-flash'
 
 
 import connectMongo from './config/mongoose.js'
-import indexRouter from './routes/contactos.js'
 import filmRouter from './routes/films.js'
 import detailsRouter from './routes/details.js'
 import cartRouter from './routes/cart.js'
@@ -66,7 +65,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/contactos', indexRouter)
 app.use('/films', filmRouter)
 app.use('/details', detailsRouter)
 app.use('/cart', cartRouter)
